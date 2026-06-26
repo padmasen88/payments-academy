@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 2: Instant Payments — Zelle, PayPal & Venmo | Payments Academy</title>
+  <meta name="description" content="Deep-dive into consumer instant payment networks: Zelle's bank-owned architecture, PayPal's money transmitter model, and Venmo's social payment mechanics." />
+  <link rel="stylesheet" href="styles/main.css" />
+  <style>
+    .hero-badge { background: rgba(45,212,191,0.12); border-color: rgba(45,212,191,0.35); color: var(--accent-teal); }
+    .module-hero::before { background: radial-gradient(circle, #2dd4bf, transparent 70%); top: -40%; left: -10%; width: 500px; height: 500px; }
+    .module-hero::after  { background: radial-gradient(circle, #06b6d4, transparent 70%); }
+    .sidebar-nav li a.active::before { background: var(--accent-teal); }
+    .section-icon { background: rgba(45,212,191,0.12); color: var(--accent-teal); }
+    .key-fact::before { background: var(--grad-teal); }
+    .process-step-num { border-color: rgba(45,212,191,0.4); color: var(--accent-teal); }
+    .chapter-tab.active { background: var(--grad-teal); }
+    .chapter-tab[data-tab="paypal"].active { background: linear-gradient(135deg, #0070ba, #00457c); }
+    .chapter-tab[data-tab="venmo"].active  { background: linear-gradient(135deg, #38bdf8, #0ea5e9); }
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-logo"><div class="nav-logo-icon">⚡</div>Payments Academy</a>
+  <ul class="nav-links">
+    <li><a href="module1.html"><span class="mod-badge nav-badge-m1"></span>Module 1: Payment Rails</a></li>
+    <li><a href="module2.html" class="active"><span class="mod-badge nav-badge-m2"></span>Module 2: Instant Payments</a></li>
+    <li><a href="module3.html"><span class="mod-badge nav-badge-m3"></span>Module 3: Cards</a></li>
+  </ul>
+</nav>
+
+<header class="module-hero">
+  <div class="hero-badge">MODULE 02</div>
+  <h1 class="hero-title">Instant Payments</h1>
+  <p class="hero-desc">How Zelle, PayPal, and Venmo actually work under the hood — the rails they ride, the wallets they operate, the fraud they face, and the regulations that govern them.</p>
+  <div class="hero-meta">
+    <span class="hero-meta-item">📚 3 Sub-chapters</span>
+    <span class="hero-meta-item">⏱ Est. 90 min</span>
+    <span class="hero-meta-item">🎯 Intermediate level</span>
+    <span class="hero-meta-item">💡 Zelle · PayPal · Venmo</span>
+  </div>
+</header>
+
+<div class="module-layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Zelle</div>
+    <ul class="sidebar-nav">
+      <li><a href="#z-overview"    data-section="z-overview">Overview &amp; History</a></li>
+      <li><a href="#z-mechanics"   data-section="z-mechanics">How It Works</a></li>
+      <li><a href="#z-settlement"  data-section="z-settlement">Funding &amp; Settlement</a></li>
+      <li><a href="#z-fraud"       data-section="z-fraud">Fraud &amp; Protections</a></li>
+      <li><a href="#z-business"    data-section="z-business">Business Use Cases</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-title">PayPal</div>
+    <ul class="sidebar-nav">
+      <li><a href="#pp-overview"      data-section="pp-overview">Overview &amp; History</a></li>
+      <li><a href="#pp-architecture"  data-section="pp-architecture">Network Architecture</a></li>
+      <li><a href="#pp-fees"          data-section="pp-fees">Merchant &amp; Fees</a></li>
+      <li><a href="#pp-regulatory"    data-section="pp-regulatory">Regulatory &amp; Compliance</a></li>
+      <li><a href="#pp-risk"          data-section="pp-risk">Risk &amp; Fraud</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-title">Venmo</div>
+    <ul class="sidebar-nav">
+      <li><a href="#v-overview"    data-section="v-overview">Overview &amp; History</a></li>
+      <li><a href="#v-mechanics"   data-section="v-mechanics">How Venmo Works</a></li>
+      <li><a href="#v-settlement"  data-section="v-settlement">Settlement &amp; Revenue</a></li>
+      <li><a href="#v-social"      data-section="v-social">Social Feed &amp; Privacy</a></li>
+      <li><a href="#v-fraud"       data-section="v-fraud">Fraud &amp; Compliance</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-title">Comparison</div>
+    <ul class="sidebar-nav">
+      <li><a href="#m2-compare" data-section="m2-compare">Platform Comparison</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    <div class="chapter-tabs" data-panels="m2-panels">
+      <button class="chapter-tab active" data-tab="zelle">💜 Zelle</button>
+      <button class="chapter-tab" data-tab="paypal">🔵 PayPal</button>
+      <button class="chapter-tab" data-tab="venmo">💙 Venmo</button>
+      <button class="chapter-tab" data-tab="m2compare">📊 Comparison</button>
+    </div>
+
+    <div id="m2-panels">
+
+      <!-- ============================== ZELLE ============================== -->
+      <div class="chapter-panel active" data-tab="zelle">
+
+        <div class="content-section" data-section-id="z-overview" id="z-overview">
+          <div class="section-header">
+            <div class="section-icon">💜</div>
+            <div><div class="section-num">1.1</div><h2>Zelle — Overview &amp; History</h2></div>
+          </div>
+          <p><strong>Zelle</strong> is a bank-owned digital payment network that allows consumers to send money directly between US bank accounts using only a phone number or email address. It is owned and operated by <strong>Early Warning Services (EWS)</strong> — a fintech consortium founded by seven of the nation's largest banks: Bank of America, Capital One, JPMorgan Chase, PNC Bank, Truist, U.S. Bank, and Wells Fargo.</p>
+          <p>Zelle launched in June 2017 as the successor to the fragmented <strong>clearXchange</strong> network (which had existed since 2011 but suffered from poor UX and slow adoption). The rebranding and consolidation under Zelle created a cohesive experience embedded directly into bank apps — no separate app required for customers of participating institutions.</p>
+
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-year">2011</div><div class="timeline-text"><strong>clearXchange founded</strong> by Bank of America, JPMorgan Chase, and Wells Fargo. First attempt at bank-owned P2P. Slow, clunky, limited adoption.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2016</div><div class="timeline-text">Early Warning Services acquires clearXchange. Plans to relaunch as a unified, consumer-friendly brand.</div></div>
+            <div class="timeline-item"><div class="timeline-year">June 2017</div><div class="timeline-text"><strong>Zelle launches</strong> embedded in major bank apps. Targets Venmo directly. Key differentiator: no separate app required for most users.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2018–2021</div><div class="timeline-text">Rapid growth. Zelle surpasses Venmo in total transaction dollar volume. Reaches 1,000+ financial institution participants.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-text">US Senate Banking Committee scrutinizes Zelle fraud. Banks pressured to improve fraud reimbursement policies.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-text"><strong>$806 billion</strong> transacted across 2.9 billion payments. Zelle is embedded in 2,200+ bank and credit union apps.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-text">CFPB sues EWS and major Zelle banks over inadequate fraud protections. Significant regulatory and policy developments ongoing.</div></div>
+          </div>
+
+          <div class="key-facts">
+            <div class="key-fact"><div class="key-fact-label">Launched</div><div class="key-fact-value">2017</div><div class="key-fact-note">Replaced clearXchange</div></div>
+            <div class="key-fact"><div class="key-fact-label">Owner</div><div class="key-fact-value" style="font-size:1rem">Early Warning Services</div><div class="key-fact-note">Consortium of 7 major banks</div></div>
+            <div class="key-fact"><div class="key-fact-label">Participating FIs</div><div class="key-fact-value">2,200+</div><div class="key-fact-note">Banks &amp; credit unions</div></div>
+            <div class="key-fact"><div class="key-fact-label">2023 Volume</div><div class="key-fact-value">$806B</div><div class="key-fact-note">2.9 billion transactions</div></div>
+            <div class="key-fact"><div class="key-fact-label">Consumer Fee</div><div class="key-fact-value">Free</div><div class="key-fact-note">No consumer-facing fees</div></div>
+            <div class="key-fact"><div class="key-fact-label">Wallet</div><div class="key-fact-value">None</div><div class="key-fact-note">Bank-to-bank, no stored value</div></div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="z-mechanics" id="z-mechanics">
+          <div class="section-header">
+            <div class="section-icon">⚙️</div>
+            <div><div class="section-num">1.2</div><h2>How Zelle Works Under the Hood</h2></div>
+          </div>
+
+          <div class="callout callout-info">
+            <div class="callout-icon">💡</div>
+            <div class="callout-content">
+              <h4>The Most Important Thing to Understand About Zelle</h4>
+              <p><strong>Zelle does not move money.</strong> It is a messaging and directory layer. The actual money movement happens via ACH between the participating banks. What makes Zelle feel "instant" is that banks extend intraday credit — they debit the sender and credit the receiver on their own ledgers before ACH settlement clears in the background.</p>
+            </div>
+          </div>
+
+          <h3>The EWS Token Directory</h3>
+          <p>At the core of Zelle is the <strong>Early Warning Services (EWS) directory</strong> — a centralized database that maps tokens (phone numbers and email addresses) to bank accounts at participating financial institutions. When you register for Zelle, your bank submits your phone/email to EWS, linking it to your account. No account numbers are exchanged between sender and receiver — privacy is protected by this tokenization layer.</p>
+
+          <div class="flow-container">
+            <div class="flow-title">ZELLE IN-NETWORK PAYMENT FLOW</div>
+            <div class="flow-diagram">
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#2dd4bf;">
+                  <div class="flow-node-icon">📱</div>
+                  <div class="flow-node-name">Sender</div>
+                  <div class="flow-node-abbr">Bank App</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#2dd4bf;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #2dd4bf;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">Send to phone/email</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#06b6d4;">
+                  <div class="flow-node-icon">🗂</div>
+                  <div class="flow-node-name">EWS Directory</div>
+                  <div class="flow-node-abbr">Token lookup</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#06b6d4;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #06b6d4;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">Route to receiver's bank</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#10b981;">
+                  <div class="flow-node-icon">🏦</div>
+                  <div class="flow-node-name">Receiver's Bank</div>
+                  <div class="flow-node-abbr">Credits account</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#10b981;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #10b981;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">Funds available instantly</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#10b981;">
+                  <div class="flow-node-icon">✅</div>
+                  <div class="flow-node-name">Receiver</div>
+                  <div class="flow-node-abbr">Funds credited</div>
+                </div>
+              </div>
+            </div>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:1rem;">↻ <em>ACH settlement occurs in the background between the two banks — typically overnight or same-day ACH</em></p>
+          </div>
+
+          <h3>In-Network vs. Out-of-Network</h3>
+          <div class="two-col">
+            <div class="card">
+              <h4 style="color:var(--accent-emerald);margin-bottom:0.75rem">✅ In-Network (both at Zelle banks)</h4>
+              <p style="font-size:0.875rem">Both sender and receiver have accounts at Zelle-participating institutions. EWS routes the message, both banks update their ledgers immediately. <strong>Receiver sees funds within seconds to minutes.</strong> Banks settle via ACH in the background. The consumer experience is seamless and instant.</p>
+            </div>
+            <div class="card">
+              <h4 style="color:var(--accent-gold);margin-bottom:0.75rem">⏳ Out-of-Network (receiver not enrolled)</h4>
+              <p style="font-size:0.875rem">If the receiver's bank isn't on Zelle, the receiver gets an invitation link to download the Zelle standalone app and link a debit card or bank account manually. Settlement occurs via ACH (1–3 days). <strong>Not instant.</strong> This path is less common as coverage has grown to 2,200+ FIs.</p>
+            </div>
+          </div>
+
+          <h3>Why Banks Fund Immediately (Intraday Credit Risk)</h3>
+          <p>When the sender's bank debits the sender's account, it credits the receiver's bank immediately — before ACH settles. This means the sending bank extends <strong>intraday credit</strong> to the receiving bank. If the sending account actually has insufficient funds when ACH attempts to clear, the bank absorbs that loss. Banks manage this risk through real-time balance checks at the time of Zelle initiation and internal fraud scoring.</p>
+        </div>
+
+        <div class="content-section" data-section-id="z-settlement" id="z-settlement">
+          <div class="section-header">
+            <div class="section-icon">💰</div>
+            <div><div class="section-num">1.3</div><h2>Funding &amp; Settlement</h2></div>
+          </div>
+          <ul>
+            <li><strong>No wallet:</strong> Zelle has no stored-value wallet. Funds go directly from one bank account to another. This is a fundamental architectural difference from PayPal and Venmo.</li>
+            <li><strong>Funding source:</strong> Always a bank account (checking or savings). No credit cards, no debit card-to-debit card.</li>
+            <li><strong>Back-end settlement:</strong> Overnight ACH batch (most common) or Same-Day ACH. Banks choose their settlement method; consumers don't see this layer.</li>
+            <li><strong>No consumer fees:</strong> Zelle is free for consumers. Banks absorb the cost as a competitive feature (retention, deposit stickiness).</li>
+            <li><strong>Business accounts:</strong> Banks may charge business customers a per-transaction fee for Zelle Business.</li>
+            <li><strong>Irrevocability:</strong> Once a Zelle payment is sent to an enrolled receiver, it <strong>cannot be reversed</strong>. The sending bank has no mechanism to claw back funds from the receiving bank after crediting.</li>
+          </ul>
+
+          <h3>Transaction Limits (Vary by Bank)</h3>
+          <table class="data-table">
+            <thead><tr><th>Bank</th><th>Daily Send Limit</th><th>Monthly Limit</th><th>Per Transaction</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Bank of America</strong></td><td>$3,500</td><td>$10,000</td><td>$2,500</td></tr>
+              <tr><td><strong>Chase</strong></td><td>$2,500</td><td>N/A</td><td>$2,500</td></tr>
+              <tr><td><strong>Wells Fargo</strong></td><td>$3,500</td><td>$20,000</td><td>$2,500</td></tr>
+              <tr><td><strong>U.S. Bank</strong></td><td>$1,500</td><td>$5,000</td><td>$1,500</td></tr>
+              <tr><td><strong>Citibank</strong></td><td>$2,000</td><td>$10,000</td><td>$2,000</td></tr>
+              <tr><td><strong>Zelle Standalone App</strong></td><td>$500</td><td>$1,000</td><td>$500</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-section" data-section-id="z-fraud" id="z-fraud">
+          <div class="section-header">
+            <div class="section-icon">🛡</div>
+            <div><div class="section-num">1.4</div><h2>Fraud &amp; Consumer Protections</h2></div>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-icon">🚨</div>
+            <div class="callout-content">
+              <h4>The Critical Reg E Distinction: Unauthorized vs. Authorized</h4>
+              <p>This is the most important concept in Zelle fraud: <strong>Reg E (EFTA) only mandates reimbursement for UNAUTHORIZED transactions</strong> — i.e., someone hacked your account and sent money without your knowledge. If <em>you</em> were tricked into sending the money (a scam), that is an <strong>authorized</strong> transaction in Reg E's eyes. Banks are NOT legally required to reimburse authorized-but-fraudulent payments. This gap has been the center of major political and regulatory controversy.</p>
+            </div>
+          </div>
+
+          <h3>Major Fraud Typologies</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-card-icon">🏦</div>
+              <div class="info-card-label">Bank Impersonation Scam</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">Fraudster calls/texts posing as the victim's bank fraud department. Convinces victim to send Zelle payments to "safe accounts" to protect against fraud. Highest-volume Zelle scam. Banks voluntarily agreed in 2023 to reimburse this specific typology.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">❤️</div>
+              <div class="info-card-label">Romance Scams</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">Long-running online relationship where fraudster eventually requests money urgently via Zelle. Often involves fabricated emergencies (medical, travel, business). Victims lose thousands before recognizing the scam.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">🛍</div>
+              <div class="info-card-label">Marketplace Scams</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">Fake seller on Facebook Marketplace, Craigslist, etc. asks for Zelle payment before delivering goods. Item never arrives. No buyer protection on Zelle unlike PayPal/credit cards.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">💸</div>
+              <div class="info-card-label">Account Takeover (ATO)</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5"><em>Truly</em> unauthorized: attacker gains online banking credentials, adds fraudulent Zelle recipient, drains account. This IS covered by Reg E — bank must investigate and reimburse.</div>
+            </div>
+          </div>
+
+          <h3>The 2023 Voluntary Reimbursement Agreement</h3>
+          <p>Under significant pressure from the Senate Banking Committee and threat of CFPB action, the major Zelle-owning banks agreed in late 2023 to <strong>voluntarily reimburse consumers</strong> who fell victim to certain impersonation scams — specifically when fraudsters impersonated the victim's own financial institution. This was a meaningful step but left out romance scams, marketplace fraud, and other typology categories.</p>
+          <p>In December 2024, the <strong>CFPB filed suit</strong> against Early Warning Services and the seven owner banks, alleging they created and promoted Zelle despite knowing about widespread fraud and without adequate fraud controls. The suit sought structural changes and restitution for harmed consumers.</p>
+
+          <div class="callout callout-warning">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-content">
+              <h4>Practical Advice for Payments Practitioners</h4>
+              <p>When building products on top of Zelle or advising clients: always clearly communicate the <strong>irreversibility</strong> of Zelle payments at the point of sending. For any business-to-consumer payout use case, consider whether a Zelle-style product is appropriate or whether RTP/ACH with return capability better fits the risk tolerance.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="z-business" id="z-business">
+          <div class="section-header">
+            <div class="section-icon">🏢</div>
+            <div><div class="section-num">1.5</div><h2>Business Use Cases</h2></div>
+          </div>
+          <p><strong>Zelle for Business</strong> allows small and medium businesses to send and receive payments via Zelle through their bank's business banking app. This is distinct from the consumer-facing product — it's a bank-enabled business service.</p>
+          <div class="two-col">
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">✅ Strong Use Cases</h4>
+              <ul style="font-size:0.875rem;color:var(--text-secondary);padding-left:1.25rem">
+                <li>Small business payroll (paying contractors, gig workers)</li>
+                <li>Service business collections (hair salons, handymen, cleaning services)</li>
+                <li>Real estate: rental deposits, earnest money between known parties</li>
+                <li>Landlord-tenant rent collection</li>
+                <li>Healthcare: patient balance collection</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">❌ Poor Fit / Limitations</h4>
+              <ul style="font-size:0.875rem;color:var(--text-secondary);padding-left:1.25rem">
+                <li>E-commerce: no integration with shopping carts or APIs</li>
+                <li>Disputes: no escrow or buyer/seller protection mechanism</li>
+                <li>International: US domestic only</li>
+                <li>High-value B2B: limits too low for most commercial use cases</li>
+                <li>Volume: not designed for bulk or automated payment workflows</li>
+              </ul>
+            </div>
+          </div>
+          <p><strong>Zelle Pay with Zelle (ZPwZ):</strong> An in-store QR code payment experience being piloted at select merchants. Consumer scans QR code at checkout, confirms in their bank app, bank-to-bank transfer executes. Very early stage, not widely deployed as of 2025.</p>
+        </div>
+
+      </div><!-- /ZELLE -->
+
+
+      <!-- ============================== PAYPAL ============================== -->
+      <div class="chapter-panel" data-tab="paypal">
+
+        <div class="content-section" data-section-id="pp-overview" id="pp-overview">
+          <div class="section-header">
+            <div class="section-icon">🔵</div>
+            <div><div class="section-num">2.1</div><h2>PayPal — Overview &amp; History</h2></div>
+          </div>
+          <p><strong>PayPal</strong> is the world's largest licensed digital payments company — a <strong>money transmitter</strong>, not a bank. Founded in 1998 by Max Levchin, Peter Thiel, and Luke Nosek (later merging with Elon Musk's X.com), PayPal pioneered internet-native payments and remains one of the most consequential fintech companies ever built.</p>
+          <p>PayPal's regulatory classification is the key to understanding it: as a <strong>licensed money transmitter</strong> registered with FinCEN and holding licenses in all 50 US states, PayPal operates a digital wallet that stores real monetary value — completely unlike Zelle's bank-passthrough model.</p>
+
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-year">1998</div><div class="timeline-text"><strong>Confinity founded</strong> by Levchin, Thiel, and Nosek to develop cryptographic security for handheld devices. Pivots to digital wallet.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2000</div><div class="timeline-text">Confinity merges with Elon Musk's <strong>X.com</strong>. Combined company renames to PayPal. Explosive growth through eBay seller adoption.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2002</div><div class="timeline-text"><strong>IPO</strong> on NASDAQ. Three weeks later, eBay acquires PayPal for $1.5 billion. Becomes the default eBay payment method.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2013</div><div class="timeline-text">PayPal acquires <strong>Braintree</strong> for $800 million — which includes Venmo. Expands into mobile and developer-first payments.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2015</div><div class="timeline-text"><strong>Spinoff from eBay</strong> as independent publicly traded company. Market cap: ~$45B. Now operates independently.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2020</div><div class="timeline-text">COVID-era boom: 72 million new accounts added in one year. Crypto buying, Honey acquisition, BNPL launch.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-text"><strong>426 million active accounts</strong>. Revenue: $29.8B. New CEO Alex Chriss hired; strategic refocus on profitability over user growth.</div></div>
+          </div>
+
+          <div class="key-facts">
+            <div class="key-fact"><div class="key-fact-label">Founded</div><div class="key-fact-value">1998</div><div class="key-fact-note">San Jose, California</div></div>
+            <div class="key-fact"><div class="key-fact-label">Active Accounts</div><div class="key-fact-value">426M</div><div class="key-fact-note">As of 2023</div></div>
+            <div class="key-fact"><div class="key-fact-label">Markets</div><div class="key-fact-value">200+</div><div class="key-fact-note">25 currencies supported</div></div>
+            <div class="key-fact"><div class="key-fact-label">2023 Revenue</div><div class="key-fact-value">$29.8B</div><div class="key-fact-note">Payments + interest</div></div>
+            <div class="key-fact"><div class="key-fact-label">Regulatory Status</div><div class="key-fact-value" style="font-size:0.9rem">Money Transmitter</div><div class="key-fact-note">All 50 states + FinCEN MSB</div></div>
+            <div class="key-fact"><div class="key-fact-label">Type</div><div class="key-fact-value">Digital Wallet</div><div class="key-fact-note">Stores monetary value</div></div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="pp-architecture" id="pp-architecture">
+          <div class="section-header">
+            <div class="section-icon">🏗</div>
+            <div><div class="section-num">2.2</div><h2>Network Architecture</h2></div>
+          </div>
+          <p>PayPal operates a <strong>two-sided network</strong> connecting buyers and sellers (merchants). At its core is a digital wallet — a stored-value account on PayPal's own ledger. This is fundamentally different from Zelle: PayPal maintains its own ledger of balances, and many transactions never touch an external payment network at all.</p>
+
+          <h3>Funding Sources (Buyer Side)</h3>
+          <table class="data-table">
+            <thead><tr><th>Funding Source</th><th>How It Works</th><th>Settlement to PayPal</th><th>Cost to User</th></tr></thead>
+            <tbody>
+              <tr><td><strong>PayPal Balance</strong></td><td>Pre-loaded funds on PayPal ledger</td><td>Internal ledger (no external network)</td><td>Free</td></tr>
+              <tr><td><strong>Bank Account (ACH)</strong></td><td>ACH pull from checking/savings</td><td>ACH (1-3 days)</td><td>Free (P2P); merchant fees apply</td></tr>
+              <tr><td><strong>Debit Card</strong></td><td>Card-present style authorization</td><td>Card network (Visa/MC)</td><td>Free (P2P)</td></tr>
+              <tr><td><strong>Credit Card</strong></td><td>Card authorization via network</td><td>Card network (T+1)</td><td>3% surcharge for P2P</td></tr>
+              <tr><td><strong>PayPal Credit</strong></td><td>Revolving credit (Synchrony Bank)</td><td>Credit facility</td><td>Interest if not paid in full</td></tr>
+              <tr><td><strong>Crypto</strong></td><td>Auto-converted at time of purchase</td><td>Internal crypto-to-USD conversion</td><td>Spread fee</td></tr>
+            </tbody>
+          </table>
+
+          <div class="flow-container">
+            <div class="flow-title">PAYPAL TRANSACTION FLOW — GOODS &amp; SERVICES</div>
+            <div class="flow-diagram">
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#0070ba;">
+                  <div class="flow-node-icon">🛒</div>
+                  <div class="flow-node-name">Buyer</div>
+                  <div class="flow-node-abbr">PayPal checkout</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#0070ba;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #0070ba;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">Payment initiated</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#0070ba;">
+                  <div class="flow-node-icon">💻</div>
+                  <div class="flow-node-name">PayPal Platform</div>
+                  <div class="flow-node-abbr">Fraud score, route</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#0070ba;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #0070ba;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">Ledger credit to seller</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#10b981;">
+                  <div class="flow-node-icon">🏪</div>
+                  <div class="flow-node-name">Seller</div>
+                  <div class="flow-node-abbr">PayPal balance credited</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#10b981;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #10b981;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">ACH withdrawal (free, 1-3d) or Instant (1.75%)</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#10b981;">
+                  <div class="flow-node-icon">🏦</div>
+                  <div class="flow-node-name">Seller's Bank</div>
+                  <div class="flow-node-abbr">Funds deposited</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3>Instant Transfer: Visa Direct / Mastercard Send</h3>
+          <p>When a seller wants funds from their PayPal balance immediately (rather than waiting 1-3 days for ACH), they can use <strong>Instant Transfer</strong>. PayPal pushes funds via <strong>Visa Direct</strong> or <strong>Mastercard Send</strong> to the seller's linked debit card — typically available within minutes. Fee: <strong>1.75%</strong> of the transfer amount (minimum $0.25, maximum $25). This push-to-debit mechanism is how many platforms (Venmo, DoorDash, Lyft, Uber) power their "instant payout" features.</p>
+        </div>
+
+        <div class="content-section" data-section-id="pp-fees" id="pp-fees">
+          <div class="section-header">
+            <div class="section-icon">💵</div>
+            <div><div class="section-num">2.3</div><h2>Merchant Acquiring &amp; Fee Structure</h2></div>
+          </div>
+          <p>PayPal is its own payment processor AND network. Merchants that accept PayPal are essentially connecting to the PayPal two-sided network — they don't need a separate acquiring bank (though PayPal is also available as a payment method via Braintree, their developer-focused payment gateway).</p>
+
+          <table class="data-table">
+            <thead><tr><th>Transaction Type</th><th>Rate</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Online checkout (standard)</strong></td><td>3.49% + $0.49</td><td>Consumer-initiated via PayPal button</td></tr>
+              <tr><td><strong>Card processing (Braintree)</strong></td><td>2.59% + $0.49</td><td>Custom card processing via API</td></tr>
+              <tr><td><strong>In-store QR code</strong></td><td>2.29% + $0.09</td><td>Consumer scans QR, PayPal balance or bank</td></tr>
+              <tr><td><strong>Invoicing</strong></td><td>3.49% + $0.49</td><td>PayPal invoice payment</td></tr>
+              <tr><td><strong>Venmo (business profile)</strong></td><td>1.9% + $0.10</td><td>Consumer pays business via Venmo tab</td></tr>
+              <tr><td><strong>P2P (Friends &amp; Family)</strong></td><td>Free (bank/balance); 3% (credit card)</td><td>No purchase protection</td></tr>
+              <tr><td><strong>Chargeback fee</strong></td><td>$20.00</td><td>Per dispute opened; refunded if won</td></tr>
+              <tr><td><strong>Micropayment rate</strong></td><td>5% + $0.05</td><td>For transactions under $10</td></tr>
+            </tbody>
+          </table>
+
+          <h3>PayPal Purchase Protection &amp; Seller Protection</h3>
+          <div class="two-col">
+            <div class="card">
+              <h4 style="color:var(--accent-emerald);margin-bottom:0.75rem">🛡 Purchase Protection (Buyer)</h4>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">For Goods &amp; Services transactions, PayPal guarantees buyers a full refund if: (1) the item doesn't arrive, or (2) the item is significantly not as described (SNAD). The buyer must open a dispute within 180 days. This makes PayPal far superior to Zelle/Venmo for marketplace transactions.</p>
+            </div>
+            <div class="card">
+              <h4 style="color:var(--accent-sky);margin-bottom:0.75rem">🛡 Seller Protection</h4>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">Sellers are protected against unauthorized transaction chargebacks and Item Not Received claims if they: (1) ship to the PayPal-confirmed address, (2) provide tracking, (3) mark orders as shipped in PayPal. Does NOT cover intangibles, custom items, or if buyer paid via Friends &amp; Family.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="pp-regulatory" id="pp-regulatory">
+          <div class="section-header">
+            <div class="section-icon">📋</div>
+            <div><div class="section-num">2.4</div><h2>Regulatory &amp; Compliance</h2></div>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-card-icon">📜</div>
+              <div class="info-card-label">FinCEN MSB Registration</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">PayPal is registered as a Money Services Business (MSB) with FinCEN. Subject to full Bank Secrecy Act (BSA) obligations: AML program, SARs (Suspicious Activity Reports), CTRs (Currency Transaction Reports for $10K+ cash equivalent).</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">🗺</div>
+              <div class="info-card-label">State Money Transmitter Licenses</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">PayPal holds money transmitter licenses (MTLs) in all 50 states and DC — each obtained separately through state banking regulators. This is a significant regulatory burden that serves as a meaningful barrier to entry for competitors.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">💰</div>
+              <div class="info-card-label">IRS 1099-K Reporting</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">PayPal reports goods &amp; services payments to the IRS via Form 1099-K for accounts receiving $600+ annually. This requirement was controversial (reduced from $20,000) and caused significant user confusion about taxability of P2P casual payments.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">🔒</div>
+              <div class="info-card-label">FDIC Insurance Status</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5"><strong>PayPal balances are NOT FDIC insured.</strong> PayPal holds customer funds in pooled accounts at FDIC-insured banks, but pass-through insurance requires proper titling and record-keeping. PayPal Savings (via Synchrony Bank) IS separately FDIC insured up to $250K.</div>
+            </div>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-content">
+              <h4>The "Not a Bank" Distinction Matters</h4>
+              <p>PayPal is not a bank — it has no banking charter, does not hold FDIC-insured deposits, and is not regulated by the OCC, Fed, or FDIC as a depository institution. It's regulated as a money transmitter. This means consumer protections differ significantly: for example, PayPal has its own dispute resolution process rather than falling under CFPB's bank examination framework (though CFPB has supervisory authority over large nonbank payment providers since 2023).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="pp-risk" id="pp-risk">
+          <div class="section-header">
+            <div class="section-icon">⚠️</div>
+            <div><div class="section-num">2.5</div><h2>Risk &amp; Fraud</h2></div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">🔓 Key Fraud Vectors</h4>
+              <ul style="font-size:0.875rem;color:var(--text-secondary);padding-left:1.25rem">
+                <li><strong>Account Takeover (ATO):</strong> Most common. Credential stuffing, phishing, or SIM swap used to access PayPal account. Attacker drains balance or links new bank account.</li>
+                <li><strong>Friends &amp; Family Scam:</strong> Buyer is convinced to pay via F&amp;F (no buyer protection) for a goods purchase. No recourse when goods don't arrive.</li>
+                <li><strong>Overpayment Scam:</strong> Fraudulent buyer "overpays" via fake PayPal email, asks seller to refund the difference before PayPal reverses the original payment.</li>
+                <li><strong>Chargeback Fraud:</strong> Buyer receives goods, then files a chargeback with their credit card issuer claiming unauthorized transaction.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">🛡 PayPal's Fraud Controls</h4>
+              <ul style="font-size:0.875rem;color:var(--text-secondary);padding-left:1.25rem">
+                <li><strong>Real-time ML fraud scoring:</strong> Every transaction scored using hundreds of signals: device fingerprint, velocity, IP, behavioral biometrics.</li>
+                <li><strong>3D Secure (3DS):</strong> Used for card-not-present transactions funded by credit/debit card. Issuer authenticates; liability shifts to issuer.</li>
+                <li><strong>Holds:</strong> New or high-risk sellers may have funds held for up to 21 days while PayPal verifies legitimacy.</li>
+                <li><strong>Two-factor authentication:</strong> SMS/TOTP required for high-risk actions (adding bank account, large transfer).</li>
+                <li><strong>Negative balance policy:</strong> If a buyer successfully reverses after goods are delivered, seller's account goes negative — PayPal may pursue collection.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /PAYPAL -->
+
+
+      <!-- ============================== VENMO ============================== -->
+      <div class="chapter-panel" data-tab="venmo">
+
+        <div class="content-section" data-section-id="v-overview" id="v-overview">
+          <div class="section-header">
+            <div class="section-icon">💙</div>
+            <div><div class="section-num">3.1</div><h2>Venmo — Overview &amp; History</h2></div>
+          </div>
+          <p><strong>Venmo</strong> is a social payment app that blends money transfers with a social media-style activity feed. Originally designed purely for peer-to-peer (P2P) splitting among friends, it has evolved into a broader financial platform with debit and credit cards, crypto, and business payments. It operates as a wholly-owned subsidiary of PayPal — acquired in 2013 through PayPal's $800 million purchase of Braintree.</p>
+          <p>Venmo's defining characteristic — what made it culturally distinctive and drove viral growth — is its <strong>public social feed</strong> where users see friends' payment activity (descriptions visible; amounts hidden by default). This social layer created powerful network effects: people joined because their friends were on it.</p>
+
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-year">2009</div><div class="timeline-text"><strong>Venmo founded</strong> by Andrew Kortina and Iqram Magdon-Ismail at University of Pennsylvania. Original concept: payments via SMS.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2010</div><div class="timeline-text">Pivots to smartphone app. Adds the social feed — friends can see payment emoji and descriptions. Viral among college students.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2012</div><div class="timeline-text">Braintree acquires Venmo for $26.2 million. Processing $10 million/month in payments.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2013</div><div class="timeline-text">PayPal acquires Braintree (and Venmo) for $800 million. Venmo begins hyper-growth under PayPal's balance sheet.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2018</div><div class="timeline-text">Venmo launches <strong>Pay with Venmo</strong> for merchants. First step toward revenue monetization beyond P2P.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2020</div><div class="timeline-text">Venmo Debit Card (Mastercard) and Venmo Credit Card (Visa/Synchrony) launched. Crypto buying enabled.</div></div>
+            <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-text"><strong>78 million active accounts</strong>. Revenue: ~$935 million (est.). US-only market.</div></div>
+          </div>
+
+          <div class="key-facts">
+            <div class="key-fact"><div class="key-fact-label">Founded</div><div class="key-fact-value">2009</div><div class="key-fact-note">By Kortina &amp; Magdon-Ismail</div></div>
+            <div class="key-fact"><div class="key-fact-label">Parent</div><div class="key-fact-value">PayPal</div><div class="key-fact-note">Acquired 2013 via Braintree</div></div>
+            <div class="key-fact"><div class="key-fact-label">Active Users</div><div class="key-fact-value">78M</div><div class="key-fact-note">US-only</div></div>
+            <div class="key-fact"><div class="key-fact-label">2023 Revenue</div><div class="key-fact-value">~$935M</div><div class="key-fact-note">Estimated</div></div>
+            <div class="key-fact"><div class="key-fact-label">Type</div><div class="key-fact-value">Wallet + Social</div><div class="key-fact-note">Stored-value + social feed</div></div>
+            <div class="key-fact"><div class="key-fact-label">Market</div><div class="key-fact-value">US Only</div><div class="key-fact-note">No international transfers</div></div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="v-mechanics" id="v-mechanics">
+          <div class="section-header">
+            <div class="section-icon">⚙️</div>
+            <div><div class="section-num">3.2</div><h2>How Venmo Works</h2></div>
+          </div>
+          <p>Venmo is a <strong>digital wallet within the PayPal ecosystem</strong>. Like PayPal, it maintains an internal ledger of balances. P2P transfers between Venmo users are internal ledger movements — no ACH, no card network, no external settlement. This is why they're instant: it's purely a database update on PayPal's servers.</p>
+
+          <h3>Funding Sources</h3>
+          <table class="data-table">
+            <thead><tr><th>Source</th><th>P2P Fee</th><th>Business Fee</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Venmo balance</strong></td><td>Free</td><td>1.9% + $0.10</td><td>Fastest; internal ledger</td></tr>
+              <tr><td><strong>Bank account (ACH)</strong></td><td>Free</td><td>1.9% + $0.10</td><td>ACH pull; 1-3 days to fund Venmo</td></tr>
+              <tr><td><strong>Debit card</strong></td><td>Free</td><td>1.9% + $0.10</td><td>Faster than ACH; card authorization</td></tr>
+              <tr><td><strong>Credit card</strong></td><td><strong>3%</strong></td><td>1.9% + $0.10 + 3%</td><td>Venmo charges the 3% surcharge</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Venmo's Card Products</h3>
+          <div class="two-col">
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">💳 Venmo Debit Card (Mastercard)</h4>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">Funded from Venmo balance. Accepted anywhere Mastercard is accepted. Can withdraw cash from ATMs (MoneyPass network free; others $2.50 fee). Includes personalized design options. Cashback offers at select merchants. The card enables Venmo balance holders to actually spend their balance in the physical world.</p>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">💳 Venmo Credit Card (Visa/Synchrony Bank)</h4>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">A traditional revolving credit card issued by Synchrony Bank on the Visa network. Rewards: <strong>3% cashback</strong> on top spend category (auto-detected), <strong>2%</strong> on second-highest category, <strong>1%</strong> everywhere else. Cash back deposited directly to Venmo balance. Subject to standard credit underwriting.</p>
+            </div>
+          </div>
+
+          <div class="flow-container">
+            <div class="flow-title">VENMO P2P FLOW — INTERNAL LEDGER (INSTANT)</div>
+            <div class="flow-diagram">
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#38bdf8;">
+                  <div class="flow-node-icon">📱</div>
+                  <div class="flow-node-name">Sender</div>
+                  <div class="flow-node-abbr">Venmo app</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#38bdf8;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #38bdf8;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">Debit sender's Venmo balance</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#0ea5e9;">
+                  <div class="flow-node-icon">🗄</div>
+                  <div class="flow-node-name">Venmo Ledger</div>
+                  <div class="flow-node-abbr">PayPal servers</div>
+                </div>
+              </div>
+              <div class="flow-arrow">
+                <div class="flow-arrow-line" style="background:#0ea5e9;"><div style="position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:7px solid #0ea5e9;border-top:5px solid transparent;border-bottom:5px solid transparent;"></div></div>
+                <div class="flow-arrow-label">Credit receiver's balance (instant)</div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-node-box" style="border-color:#10b981;">
+                  <div class="flow-node-icon">✅</div>
+                  <div class="flow-node-name">Receiver</div>
+                  <div class="flow-node-abbr">Balance updated</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="v-settlement" id="v-settlement">
+          <div class="section-header">
+            <div class="section-icon">💰</div>
+            <div><div class="section-num">3.3</div><h2>Settlement, Withdrawals &amp; Revenue Model</h2></div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">Standard Transfer (Free)</h4>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">Move funds from Venmo balance to a linked bank account via ACH. Takes <strong>1–3 business days</strong>. No fee. This is the "patient" path that Venmo subsidizes to maintain the user base and encourage balance retention.</p>
+            </div>
+            <div class="card">
+              <h4 style="margin-bottom:0.75rem">Instant Transfer (1.75% fee)</h4>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">Push funds to a linked debit card via <strong>Visa Direct / Mastercard Send</strong>. Available <strong>within 30 minutes</strong>, typically faster. Fee: 1.75% of transfer amount (min $0.25, max $25). This is a meaningful revenue line for Venmo and PayPal.</p>
+            </div>
+          </div>
+
+          <h3>How Venmo Makes Money</h3>
+          <table class="data-table">
+            <thead><tr><th>Revenue Stream</th><th>Mechanism</th><th>Estimated Contribution</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Instant Transfers</strong></td><td>1.75% fee on balance withdrawals</td><td>~20% of revenue</td></tr>
+              <tr><td><strong>Business Transaction Fees</strong></td><td>1.9% + $0.10 for business profiles</td><td>~30% of revenue</td></tr>
+              <tr><td><strong>Debit Card Interchange</strong></td><td>Interchange from Venmo debit card spend</td><td>~15% of revenue</td></tr>
+              <tr><td><strong>Credit Card (Synchrony rev-share)</strong></td><td>Revenue share on interest, annual fees</td><td>~10% of revenue</td></tr>
+              <tr><td><strong>Crypto Trading Spread</strong></td><td>Spread on crypto buy/sell transactions</td><td>~10% of revenue</td></tr>
+              <tr><td><strong>Credit Card Surcharge (P2P)</strong></td><td>3% charged when sending via credit card</td><td>~15% of revenue</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout callout-warning">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-content">
+              <h4>Venmo Balances Are NOT FDIC Insured</h4>
+              <p>Like PayPal balances, Venmo balances are <strong>not directly FDIC insured</strong>. PayPal/Venmo holds customer funds in pooled accounts at partner banks. While these are held at FDIC-insured institutions, the pass-through insurance protection requires specific conditions. The safest posture: don't leave large balances in Venmo. Venmo Savings (via Synchrony Bank) IS separately FDIC insured.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="v-social" id="v-social">
+          <div class="section-header">
+            <div class="section-icon">📢</div>
+            <div><div class="section-num">3.4</div><h2>Social Feed &amp; Privacy Considerations</h2></div>
+          </div>
+          <p>Venmo's <strong>social feed</strong> — where users see friends' payment activity — is the feature that made Venmo culturally distinct. Transaction descriptions (emojis, text) are visible; amounts are hidden by default. Users can set each transaction to Public, Friends, or Private.</p>
+
+          <h3>Privacy Risks</h3>
+          <ul>
+            <li><strong>Default is "Friends":</strong> Unless users actively change settings per transaction, their payment activity is visible to their entire Venmo friends list. Many users don't realize this.</li>
+            <li><strong>Public profile scraping:</strong> Public Venmo data has been scraped by researchers and journalists. In 2019, a researcher published President Trump's Venmo social graph by exploiting the public API. The API was subsequently restricted.</li>
+            <li><strong>Law enforcement access:</strong> Courts have subpoenaed Venmo transaction data in criminal cases. Drug transactions conducted "publicly" on Venmo have been used as evidence.</li>
+            <li><strong>Pattern analysis:</strong> Even without amounts, transaction frequency and timing can reveal sensitive information (e.g., medical provider payments, political donations, relationship patterns).</li>
+          </ul>
+
+          <div class="callout callout-danger">
+            <div class="callout-icon">🔒</div>
+            <div class="callout-content">
+              <h4>Best Practice: Set Sensitive Transactions to Private</h4>
+              <p>For any payment involving sensitive information — medical services, legal services, therapy, religious organizations, political entities — always set the Venmo transaction to <strong>Private</strong> at the time of sending. You can also change your default privacy setting in Venmo's settings menu. This prevents the description from appearing in the social feed of any connected user.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section" data-section-id="v-fraud" id="v-fraud">
+          <div class="section-header">
+            <div class="section-icon">🛡</div>
+            <div><div class="section-num">3.5</div><h2>Fraud &amp; Compliance</h2></div>
+          </div>
+          <ul>
+            <li><strong>BSA/AML obligations:</strong> As a PayPal subsidiary, Venmo is covered under PayPal's FinCEN MSB registration and AML program. All KYC and transaction monitoring applies.</li>
+            <li><strong>1099-K reporting:</strong> Same as PayPal — goods &amp; services payments totaling $600+ per year are reported to the IRS.</li>
+            <li><strong>Business activity on personal accounts:</strong> Venmo's terms explicitly prohibit using personal accounts for business transactions. Venmo has frozen and terminated accounts found to be doing volume business under personal profiles. If conducting business, use a Venmo Business Profile.</li>
+            <li><strong>Reg E for unauthorized:</strong> Genuinely unauthorized transactions (account takeover) are protected under Reg E. Authorized-but-fraudulent transactions (scams where the user sent the payment) face the same coverage gap as Zelle.</li>
+          </ul>
+
+          <h3>Common Venmo Scams</h3>
+          <div class="return-codes">
+            <div class="return-code-item">
+              <div class="return-code-code" style="background:rgba(244,63,94,0.1);color:#f43f5e;border-color:rgba(244,63,94,0.3)">💸</div>
+              <div class="return-code-desc"><div class="return-code-title">Overpayment Scam</div>Fraudulent buyer sends more than asked, requests refund of overage — original payment reverses, victim loses refund amount.</div>
+            </div>
+            <div class="return-code-item">
+              <div class="return-code-code" style="background:rgba(244,63,94,0.1);color:#f43f5e;border-color:rgba(244,63,94,0.3)">🏠</div>
+              <div class="return-code-desc"><div class="return-code-title">Rental Deposit Scam</div>Fake landlord asks for deposit via Venmo to "hold" an apartment. No apartment exists; money gone.</div>
+            </div>
+            <div class="return-code-item">
+              <div class="return-code-code" style="background:rgba(244,63,94,0.1);color:#f43f5e;border-color:rgba(244,63,94,0.3)">🎫</div>
+              <div class="return-code-desc"><div class="return-code-title">Ticket / Event Scam</div>Fake concert or sports tickets sold via Venmo. F&F payment requested; no protection when tickets are fraudulent.</div>
+            </div>
+            <div class="return-code-item">
+              <div class="return-code-code" style="background:rgba(244,63,94,0.1);color:#f43f5e;border-color:rgba(244,63,94,0.3)">🛒</div>
+              <div class="return-code-desc"><div class="return-code-title">Fake Buyer Scam</div>"Customer" pays seller via Venmo G&amp;S, requests goods shipped; files dispute after receiving, claims item not received.</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /VENMO -->
+
+
+      <!-- ============================== COMPARISON ============================== -->
+      <div class="chapter-panel" data-tab="m2compare">
+        <div class="content-section" data-section-id="m2-compare" id="m2-compare">
+          <div class="section-header">
+            <div class="section-icon">📊</div>
+            <div><div class="section-num">4.1</div><h2>Platform Comparison</h2></div>
+          </div>
+
+          <div class="compare-table-wrapper">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th class="col-feature">Feature</th>
+                  <th style="background:rgba(99,102,241,0.08);color:#a78bfa;">Zelle</th>
+                  <th style="background:rgba(0,112,186,0.1);color:#60a5fa;">PayPal</th>
+                  <th style="background:rgba(56,189,248,0.08);color:#38bdf8;">Venmo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Underlying network</td><td>ACH (back-end) via EWS</td><td>Internal ledger + ACH/cards</td><td>Internal ledger + ACH/cards</td></tr>
+                <tr><td>Wallet / stored value</td><td><span class="cross">✗</span> No wallet</td><td><span class="check">✓</span> Full wallet</td><td><span class="check">✓</span> Full wallet</td></tr>
+                <tr><td>FDIC insurance</td><td><span class="check">✓</span> (bank account protected)</td><td><span class="cross">✗</span> Balance not insured</td><td><span class="cross">✗</span> Balance not insured</td></tr>
+                <tr><td>Regulatory status</td><td>Bank-owned EWS</td><td>Licensed Money Transmitter</td><td>PayPal subsidiary (MSB)</td></tr>
+                <tr><td>Consumer P2P fee</td><td>Free</td><td>Free (bank/balance); 3% (CC)</td><td>Free (bank/balance); 3% (CC)</td></tr>
+                <tr><td>Max P2P transaction</td><td>$500–$3,500 (bank-dependent)</td><td>$60,000 (verified account)</td><td>$4,999.99 per week</td></tr>
+                <tr><td>Buyer protection</td><td><span class="cross">✗</span> None</td><td><span class="check">✓</span> Purchase Protection</td><td><span class="partial">~</span> G&amp;S only</td></tr>
+                <tr><td>Fraud reimbursement</td><td>Unauthorized only (+ some scams)</td><td>Unauthorized + G&amp;S disputes</td><td>Unauthorized only</td></tr>
+                <tr><td>Business support</td><td><span class="partial">~</span> Limited via banks</td><td><span class="check">✓</span> Full merchant support</td><td><span class="check">✓</span> Business profiles</td></tr>
+                <tr><td>International</td><td><span class="cross">✗</span> US only</td><td><span class="check">✓</span> 200+ markets</td><td><span class="cross">✗</span> US only</td></tr>
+                <tr><td>Social feed</td><td><span class="cross">✗</span> No</td><td><span class="cross">✗</span> No</td><td><span class="check">✓</span> Yes (privacy concerns)</td></tr>
+                <tr><td>Instant withdrawal</td><td>N/A (no wallet)</td><td>1.75% via debit card push</td><td>1.75% via debit card push</td></tr>
+                <tr><td>Debit card</td><td><span class="cross">✗</span> No</td><td><span class="check">✓</span> PayPal Debit</td><td><span class="check">✓</span> Venmo Debit (Mastercard)</td></tr>
+                <tr><td>Credit card</td><td><span class="cross">✗</span> No</td><td><span class="check">✓</span> PayPal Credit (Synchrony)</td><td><span class="check">✓</span> Venmo Credit (Visa/Synchrony)</td></tr>
+                <tr><td>1099-K reporting</td><td><span class="cross">✗</span> (bank reports)</td><td><span class="check">✓</span> $600+ G&amp;S</td><td><span class="check">✓</span> $600+ G&amp;S</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="mt-4">When to Use Each Platform</h3>
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-card-icon">💜</div>
+              <div class="info-card-label">Use Zelle When...</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">Sending money to someone you trust, at a bank that supports Zelle, and you want bank-to-bank with no intermediary wallet. Best for rent, splitting bills, family transfers.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">🔵</div>
+              <div class="info-card-label">Use PayPal When...</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">Paying for goods or services from strangers, conducting international transactions, or you need buyer/seller protection. Best for marketplace purchases, freelancer payments, international.</div>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon">💙</div>
+              <div class="info-card-label">Use Venmo When...</div>
+              <div class="info-card-value" style="font-size:0.85rem;line-height:1.5">Splitting costs among friends in a social context (dinner, events, trips). US-only. Friends &amp; Family use only — avoid for strangers. Use G&amp;S for any goods/services to get protection.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /m2-panels -->
+
+    <div class="module-footer">
+      <a href="module1.html" class="footer-nav-btn">← Module 1: Payment Rails</a>
+      <a href="module3.html" class="footer-nav-btn primary">Module 3: Cards →</a>
+    </div>
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

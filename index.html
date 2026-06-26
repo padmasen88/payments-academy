@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payments Academy — Master the US Payments Ecosystem</title>
+  <meta name="description" content="A comprehensive, interactive curriculum covering ACH, RTP, FedNow, Wires, Zelle, PayPal, Venmo, and consumer & commercial card payments in depth." />
+  <link rel="stylesheet" href="styles/main.css" />
+  <style>
+    /* INDEX-SPECIFIC OVERRIDES */
+    body { background: var(--bg-primary); }
+
+    .home-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      opacity: 0.06;
+    }
+    .orb-1 { width: 700px; height: 700px; background: #6366f1; top: -15%; left: -15%; }
+    .orb-2 { width: 500px; height: 500px; background: #2dd4bf; bottom: -10%; right: -10%; }
+    .orb-3 { width: 400px; height: 400px; background: #8b5cf6; top: 40%; left: 60%; }
+
+    .home-eyebrow {
+      position: relative;
+      z-index: 2;
+    }
+    .home-title { position: relative; z-index: 2; }
+    .home-subtitle { position: relative; z-index: 2; }
+
+    .stats-row {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .stat-item { text-align: center; }
+    .stat-item-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      background: var(--grad-indigo);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-item-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 0.1rem;
+    }
+
+    .module-cards { position: relative; z-index: 2; }
+
+    .module-card-m1 .module-card-icon { background: rgba(99,102,241,0.15); }
+    .module-card-m2 .module-card-icon { background: rgba(45,212,191,0.15); }
+    .module-card-m3 .module-card-icon { background: rgba(245,158,11,0.15); }
+
+    .module-card-m1 .module-card-number { color: var(--accent-indigo); }
+    .module-card-m2 .module-card-number { color: var(--accent-teal); }
+    .module-card-m3 .module-card-number { color: var(--accent-gold); }
+
+    .module-card-m1 .topic-pill { background: rgba(99,102,241,0.1); color: var(--accent-indigo); border-color: rgba(99,102,241,0.25); }
+    .module-card-m2 .topic-pill { background: rgba(45,212,191,0.1); color: var(--accent-teal); border-color: rgba(45,212,191,0.25); }
+    .module-card-m3 .topic-pill { background: rgba(245,158,11,0.1); color: var(--accent-gold); border-color: rgba(245,158,11,0.25); }
+
+    .module-card-m1 .module-card-arrow { color: var(--accent-indigo); }
+    .module-card-m2 .module-card-arrow { color: var(--accent-teal); }
+    .module-card-m3 .module-card-arrow { color: var(--accent-gold); }
+
+    .home-footer {
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .curriculum-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .curriculum-section h2 {
+      text-align: center;
+      margin-bottom: 0.75rem;
+      font-size: 2rem;
+    }
+
+    .curriculum-section .section-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 4rem;
+    }
+
+    .feature-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: all var(--t-normal);
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-glass-hover);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon { font-size: 1.75rem; margin-bottom: 0.875rem; }
+    .feature-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .feature-desc { font-size: 0.845rem; color: var(--text-secondary); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">⚡</div>
+    Payments Academy
+  </a>
+  <ul class="nav-links">
+    <li>
+      <a href="module1.html">
+        <span class="mod-badge nav-badge-m1"></span>
+        Module 1: Payment Rails
+      </a>
+    </li>
+    <li>
+      <a href="module2.html">
+        <span class="mod-badge nav-badge-m2"></span>
+        Module 2: Instant Payments
+      </a>
+    </li>
+    <li>
+      <a href="module3.html">
+        <span class="mod-badge nav-badge-m3"></span>
+        Module 3: Cards
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<main>
+  <section class="home-hero">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <div id="particles" class="particles"></div>
+
+    <div class="home-eyebrow">
+      ⚡ The Complete US Payments Curriculum
+    </div>
+
+    <h1 class="home-title">
+      Master the <span class="highlight-indigo">Payments</span><br/>Ecosystem
+    </h1>
+
+    <p class="home-subtitle">
+      A practitioner-grade deep dive into every major US payment rail — from ACH batch processing
+      to real-time payments, consumer apps, and the economics of card networks.
+    </p>
+
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-item-num">3</div>
+        <div class="stat-item-label">Modules</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-item-num">10</div>
+        <div class="stat-item-label">Sub-chapters</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-item-num">$1T+</div>
+        <div class="stat-item-label">Daily volume covered</div>
+      </div>
+    </div>
+
+    <!-- MODULE CARDS -->
+    <div class="module-cards">
+
+      <a href="module1.html" class="module-card module-card-m1">
+        <div class="module-card-number">MODULE 01</div>
+        <div class="module-card-icon">🏦</div>
+        <h3>Payment Rails</h3>
+        <p>The foundational infrastructure of US money movement — batch, real-time, and high-value settlement networks.</p>
+        <div class="module-card-topics">
+          <span class="topic-pill">ACH</span>
+          <span class="topic-pill">RTP</span>
+          <span class="topic-pill">FedNow</span>
+          <span class="topic-pill">Wires</span>
+        </div>
+        <div class="module-card-arrow">
+          <span>Begin Module</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <a href="module2.html" class="module-card module-card-m2">
+        <div class="module-card-number">MODULE 02</div>
+        <div class="module-card-icon">📱</div>
+        <h3>Instant Payments</h3>
+        <p>Consumer-facing instant money movement — the networks, settlement mechanics, and fraud landscape underneath familiar apps.</p>
+        <div class="module-card-topics">
+          <span class="topic-pill">Zelle</span>
+          <span class="topic-pill">PayPal</span>
+          <span class="topic-pill">Venmo</span>
+        </div>
+        <div class="module-card-arrow">
+          <span>Begin Module</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <a href="module3.html" class="module-card module-card-m3">
+        <div class="module-card-number">MODULE 03</div>
+        <div class="module-card-icon">💳</div>
+        <h3>Card Payments</h3>
+        <p>The anatomy of card networks — authorization flows, interchange economics, and the full spectrum from debit to commercial cards.</p>
+        <div class="module-card-topics">
+          <span class="topic-pill">Debit</span>
+          <span class="topic-pill">Credit</span>
+          <span class="topic-pill">Prepaid</span>
+          <span class="topic-pill">Commercial</span>
+        </div>
+        <div class="module-card-arrow">
+          <span>Begin Module</span>
+          <span>→</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- WHAT YOU'LL LEARN -->
+  <section class="curriculum-section">
+    <h2 class="grad-text-indigo">What You'll Learn</h2>
+    <p class="section-subtitle">
+      Each module goes well beyond surface-level overviews — covering technical flows, risk frameworks, regulatory context, and business economics.
+    </p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-title">Transaction Flows</div>
+        <div class="feature-desc">Step-by-step visualization of how money actually moves from originator to receiver across every major rail.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏱</div>
+        <div class="feature-title">Settlement Mechanics</div>
+        <div class="feature-desc">Understand clearing windows, finality, irrevocability, and the critical differences between credit and debit rails.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡</div>
+        <div class="feature-title">Risk & Fraud</div>
+        <div class="feature-desc">Return code analysis, unauthorized transaction handling, fraud typologies, and consumer protection frameworks.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <div class="feature-title">Economics</div>
+        <div class="feature-desc">Fee structures, interchange economics, the four-party card model, and how participants earn revenue.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Regulatory Landscape</div>
+        <div class="feature-desc">Reg E, Reg CC, Nacha rules, network rules, PCI-DSS, and the CFPB's role in consumer protection.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏗</div>
+        <div class="feature-title">Architecture & Participants</div>
+        <div class="feature-desc">Who are the operators, intermediaries, and agents in each network — and how does governance work?</div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="home-footer">
+  <p>Payments Academy &nbsp;·&nbsp; Built for practitioners in the payments industry</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
