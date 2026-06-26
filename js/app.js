@@ -139,16 +139,36 @@
 
   /* ---- SMOOTH SIDEBAR SCROLL ---- */
   function initSidebarLinks() {
+    var headerHeight = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue('--header-height') || '64',
+      10
+    );
+
     document.querySelectorAll('.sidebar-nav a[href^="#"]').forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        var id = link.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if (!target) return;
+
+        /* If the target lives inside a hidden panel, activate that panel first */
+        var panel = target.closest('.chapter-panel');
+        if (panel && !panel.classList.contains('active')) {
+          var tabName = panel.dataset.tab;
+          /* Find the matching tab button and click it */
+          var tabBtn = document.querySelector('.chapter-tab[data-tab="' + tabName + '"]');
+          if (tabBtn) tabBtn.click();
         }
+
+        /* Wait one frame so the panel becomes visible before measuring position */
+        requestAnimationFrame(function () {
+          var top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        });
       });
     });
   }
+
 
   /* ---- COPY CODE BUTTON ---- */
   function initCodeCopy() {
