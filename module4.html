@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 4: Emerging Trends in Payments 2026 | Payments Academy</title>
+  <meta name="description" content="The frontier of payments in 2026 — AI, agentic commerce, stablecoins, open banking, CBDCs, cross-border modernization, embedded finance, and the future infrastructure stack." />
+  <link rel="stylesheet" href="styles/main.css" />
+  <style>
+    .hero-badge { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.35); color: var(--mod4-color); }
+    .module-hero::before { background: radial-gradient(circle, #8b5cf6, transparent 70%); top: -40%; left: -10%; width: 500px; height: 500px; }
+    .module-hero::after  { background: radial-gradient(circle, #ec4899, transparent 70%); }
+    .sidebar-nav li a.active::before { background: var(--grad-violet); }
+    .section-icon { background: rgba(139,92,246,0.12); color: var(--mod4-color); }
+    .key-fact::before { background: var(--grad-violet); }
+    .process-step-num { border-color: rgba(139,92,246,0.4); color: var(--mod4-color); }
+    .chapter-tab.active { background: var(--grad-violet); }
+    .chapter-tab[data-tab="digital"].active   { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+    .chapter-tab[data-tab="openbanking"].active { background: linear-gradient(135deg, #10b981, #06b6d4); }
+    .chapter-tab[data-tab="crossborder"].active { background: linear-gradient(135deg, #38bdf8, #6366f1); }
+    .chapter-tab[data-tab="futurestack"].active { background: linear-gradient(135deg, #ec4899, #8b5cf6); }
+    .trend-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all var(--t-normal);
+      position: relative;
+      overflow: hidden;
+    }
+    .trend-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--grad-violet);
+      border-radius: 3px 0 0 3px;
+    }
+    .trend-card:hover { border-color: rgba(139,92,246,0.3); background: var(--bg-glass-hover); transform: translateX(3px); }
+    .trend-card h4 { margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .stat-highlight {
+      display: inline-block;
+      background: rgba(139,92,246,0.12);
+      border: 1px solid rgba(139,92,246,0.25);
+      border-radius: var(--radius-sm);
+      padding: 0.15rem 0.6rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--mod4-color);
+    }
+    .stat-highlight.gold { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.25); color: var(--accent-gold); }
+    .stat-highlight.teal { background: rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.25); color: var(--accent-teal); }
+    .stat-highlight.rose { background: rgba(244,63,94,0.1); border-color: rgba(244,63,94,0.25); color: var(--accent-rose); }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+      align-items: start;
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--mod4-color);
+      font-weight: 600;
+      padding-top: 0.1rem;
+      white-space: nowrap;
+    }
+    .timeline-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+    .timeline-text strong { color: var(--text-primary); }
+    .vendor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.875rem;
+      margin: 1rem 0;
+    }
+    .vendor-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      transition: all var(--t-normal);
+    }
+    .vendor-card:hover { border-color: rgba(139,92,246,0.3); background: var(--bg-glass-hover); }
+    .vendor-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; color: var(--text-primary); }
+    .vendor-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+    .warning-box {
+      background: rgba(244,63,94,0.06);
+      border: 1px solid rgba(244,63,94,0.2);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+    .warning-box p { color: var(--text-secondary); margin: 0; font-size: 0.9rem; }
+    .info-box {
+      background: rgba(45,212,191,0.06);
+      border: 1px solid rgba(45,212,191,0.2);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+    .info-box p { color: var(--text-secondary); margin: 0; font-size: 0.9rem; }
+    .cbdc-map {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .cbdc-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: all var(--t-normal);
+    }
+    .cbdc-card:hover { border-color: rgba(139,92,246,0.3); transform: translateY(-2px); }
+    .cbdc-flag { font-size: 2rem; margin-bottom: 0.5rem; }
+    .cbdc-name { font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; color: var(--text-primary); }
+    .cbdc-status { font-size: 0.78rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 99px; display: inline-block; margin-bottom: 0.75rem; }
+    .status-live    { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+    .status-pilot   { background: rgba(245,158,11,0.15); color: var(--accent-gold); border: 1px solid rgba(245,158,11,0.3); }
+    .status-none    { background: rgba(244,63,94,0.12); color: var(--accent-rose); border: 1px solid rgba(244,63,94,0.25); }
+    .status-planned { background: rgba(99,102,241,0.12); color: var(--accent-indigo); border: 1px solid rgba(99,102,241,0.25); }
+    .cbdc-desc { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="index.html" class="nav-logo"><div class="nav-logo-icon">⚡</div>Payments Academy</a>
+  <ul class="nav-links">
+    <li><a href="module1.html"><span class="mod-badge nav-badge-m1"></span>Module 1: Payment Rails</a></li>
+    <li><a href="module2.html"><span class="mod-badge nav-badge-m2"></span>Module 2: Instant Payments</a></li>
+    <li><a href="module3.html"><span class="mod-badge nav-badge-m3"></span>Module 3: Cards</a></li>
+    <li><a href="module4.html" class="active"><span class="mod-badge nav-badge-m4"></span>Module 4: Emerging Trends</a></li>
+  </ul>
+</nav>
+
+<header class="module-hero">
+  <div class="hero-badge">MODULE 04</div>
+  <h1 class="hero-title">Emerging Trends in Payments</h1>
+  <p class="hero-desc">The frontier of payments as of 2026 — AI & agentic commerce reshaping fraud and checkout, stablecoins entering the financial mainstream, open banking unlocking data portability, cross-border rails modernizing after decades of stagnation, and a new infrastructure stack converging beneath it all.</p>
+  <div class="hero-meta">
+    <span class="hero-meta-item">📚 5 Sub-chapters</span>
+    <span class="hero-meta-item">⏱ Est. 120 min</span>
+    <span class="hero-meta-item">🎯 Advanced level</span>
+    <span class="hero-meta-item">🌐 US & Global</span>
+  </div>
+</header>
+
+<div class="module-layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">AI & Agentic</div>
+    <ul class="sidebar-nav">
+      <li><a href="#ai-fraud"        data-section="ai-fraud">AI Fraud Detection</a></li>
+      <li><a href="#ai-genai"        data-section="ai-genai">GenAI: The Dual-Use Risk</a></li>
+      <li><a href="#ai-techniques"   data-section="ai-techniques">Advanced Techniques</a></li>
+      <li><a href="#ai-agentic"      data-section="ai-agentic">Agentic Commerce</a></li>
+    </ul>
+    <div class="sidebar-title">Digital Money</div>
+    <ul class="sidebar-nav">
+      <li><a href="#stablecoins"     data-section="stablecoins">Stablecoins & GENIUS Act</a></li>
+      <li><a href="#bnpl"            data-section="bnpl">BNPL in 2026</a></li>
+      <li><a href="#cbdc"            data-section="cbdc">CBDCs: Global Landscape</a></li>
+    </ul>
+    <div class="sidebar-title">Open Banking & A2A</div>
+    <ul class="sidebar-nav">
+      <li><a href="#ob-1033"         data-section="ob-1033">US Section 1033</a></li>
+      <li><a href="#ob-uk"           data-section="ob-uk">UK Open Banking & VRP</a></li>
+      <li><a href="#ob-europe"       data-section="ob-europe">PSD3, Wero & A2A</a></li>
+    </ul>
+    <div class="sidebar-title">Cross-Border</div>
+    <ul class="sidebar-nav">
+      <li><a href="#iso20022"        data-section="iso20022">ISO 20022 Migration</a></li>
+      <li><a href="#nexus"           data-section="nexus">Project Nexus & G20</a></li>
+      <li><a href="#mbridge"         data-section="mbridge">Project mBridge</a></li>
+    </ul>
+    <div class="sidebar-title">Future Stack</div>
+    <ul class="sidebar-nav">
+      <li><a href="#embedded"        data-section="embedded">Embedded Finance & BaaS</a></li>
+      <li><a href="#rfp"             data-section="rfp">Request for Payment</a></li>
+      <li><a href="#tokenization"    data-section="tokenization">Tokenization & Wallets</a></li>
+      <li><a href="#biometric"       data-section="biometric">Invisible & Biometric</a></li>
+      <li><a href="#regulatory"      data-section="regulatory">US Regulatory Landscape</a></li>
+    </ul>
+  </aside>
+
+  <main class="content-area">
+
+    <!-- CHAPTER TABS -->
+    <div class="chapter-tabs">
+      <button class="chapter-tab active" data-tab="ai">🤖 AI & Agentic</button>
+      <button class="chapter-tab" data-tab="digital">💰 Digital Money</button>
+      <button class="chapter-tab" data-tab="openbanking">🔓 Open Banking & A2A</button>
+      <button class="chapter-tab" data-tab="crossborder">🌍 Cross-Border</button>
+      <button class="chapter-tab" data-tab="futurestack">⚡ Future Stack</button>
+    </div>
+
+    <!-- ================================================
+         TAB 1: AI & AGENTIC COMMERCE
+         ================================================ -->
+    <div class="chapter-content active" data-chapter="ai">
+
+      <section class="content-section" id="ai-fraud">
+        <div class="section-header">
+          <div class="section-icon">🤖</div>
+          <div>
+            <h2>AI in Payments: Fraud Detection & Intelligence</h2>
+            <p class="section-lead">Artificial intelligence has moved from an experimental capability to the primary defense layer across every payment type. By 2025, AI-powered fraud detection was effectively mandatory infrastructure for financial institutions.</p>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">87%</div>
+            <div class="key-fact-label">of global FIs had AI-powered fraud detection by 2025 (up from 72% in early 2024)</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">$6.84B</div>
+            <div class="key-fact-label">AI fraud detection market in 2025 → projected $49.5B by 2034 (CAGR: 24.6%)</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">47% vs 30%</div>
+            <div class="key-fact-label">Advanced AI adoption: fintechs vs. incumbent banks</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">$60M</div>
+            <div class="key-fact-label">Average annual payment fraud loss per organization (survey data)</div>
+          </div>
+        </div>
+
+        <h3>How Modern AI Fraud Detection Works</h3>
+        <p>Traditional rules-based fraud systems (e.g., "flag any transaction over $5,000 from a new device") produce enormous false positive rates — blocking legitimate customers and generating manual review queues. Modern AI systems replace or augment these rules with probabilistic models that evaluate hundreds of signals simultaneously:</p>
+
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-step-num">1</div>
+            <div class="process-step-body">
+              <strong>Feature Engineering</strong>
+              <p>Hundreds of transaction attributes are computed in real time: merchant category, time since last transaction, device fingerprint, network IP, geographic distance from prior transaction, velocity across accounts, and hundreds more.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">2</div>
+            <div class="process-step-body">
+              <strong>Model Scoring</strong>
+              <p>Gradient boosting models (XGBoost, LightGBM) or neural networks produce a fraud probability score (0–1000) for each transaction in under 50 milliseconds. The score routes the transaction: approve, decline, step-up authentication, or manual review.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">3</div>
+            <div class="process-step-body">
+              <strong>Behavioral Baseline</strong>
+              <p>Each customer has an individual behavioral profile that updates continuously — normal spending hours, device types, geographic patterns, merchant preferences. Deviations from this "normal" fingerprint trigger elevated scores.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">4</div>
+            <div class="process-step-body">
+              <strong>Feedback Loop</strong>
+              <p>Confirmed fraud cases and false positives are fed back into training data, enabling continuous model improvement. Challenger models run alongside champions in A/B tests to validate improvements before full deployment.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3>Named Platforms & Vendors (2025–2026)</h3>
+        <div class="vendor-grid">
+          <div class="vendor-card">
+            <div class="vendor-name">Mastercard Decision Intelligence Pro</div>
+            <div class="vendor-desc">Real-time GenAI + graph-based scoring across up to 1 trillion transaction data points. Detects fraud patterns invisible to traditional models.</div>
+          </div>
+          <div class="vendor-card">
+            <div class="vendor-name">FICO Falcon Fraud Manager</div>
+            <div class="vendor-desc">Industry-standard enterprise fraud platform. Evolving into the unified "FICO Platform" with agentic AI and explainability-first design for regulatory compliance.</div>
+          </div>
+          <div class="vendor-card">
+            <div class="vendor-name">Quantexa</div>
+            <div class="vendor-desc">Contextual intelligence and graph analytics for financial crime. Builds relationship maps across accounts, entities, and transactions to surface money mule networks.</div>
+          </div>
+          <div class="vendor-card">
+            <div class="vendor-name">Zest AI</div>
+            <div class="vendor-desc">AI-driven credit underwriting focused on fair lending. Uses explainable ML to expand credit access while maintaining — or improving — portfolio performance.</div>
+          </div>
+          <div class="vendor-card">
+            <div class="vendor-name">Taktile</div>
+            <div class="vendor-desc">Automated underwriting decisioning for fintechs. Enables teams to build, test, and deploy credit and fraud decision flows without engineering overhead.</div>
+          </div>
+          <div class="vendor-card">
+            <div class="vendor-name">Silent Eight</div>
+            <div class="vendor-desc">AI-powered sanctions and AML name screening. Reduces the manual review queue for sanctions false positives by automated resolution with audit trail.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="ai-genai">
+        <div class="section-header">
+          <div class="section-icon">⚔️</div>
+          <div>
+            <h2>GenAI: The Dual-Use Risk</h2>
+            <p class="section-lead">Generative AI acts simultaneously as the payments industry's most powerful fraud defense and its most dangerous threat vector. Understanding both sides is essential for any payments professional in 2026.</p>
+          </div>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>As a DEFENSE</th><th>As an ATTACK</th></tr></thead>
+            <tbody>
+              <tr><td>Generates synthetic fraud scenarios for model training data</td><td>Creates synthetic identities that pass all KYC checks ("all-green fraud")</td></tr>
+              <tr><td>Summarizes investigation reports for analysts</td><td>Produces deepfake audio/video to impersonate bank employees or victims</td></tr>
+              <tr><td>Detects anomalous patterns in unstructured data (emails, chat)</td><td>Automates personalized phishing at industrial scale with zero marginal cost</td></tr>
+              <tr><td>Explains model decisions to regulators in plain language</td><td>Generates convincing fraudulent documentation (pay stubs, bank statements)</td></tr>
+              <tr><td>Monitors customer interactions for social engineering signals</td><td>Produces deepfake voice calls to manipulate victims into authorized transfers</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning-box">
+          <p>⚠️ <strong>"All-Green Fraud":</strong> GenAI-powered synthetic identities are increasingly able to pass identity verification (ID document matching, selfie liveness checks, knowledge-based authentication) with no human involvement. These identities score well on traditional credit bureaus because they've been cultivated over months. Detecting them requires behavioral analysis — not just document verification.</p>
+        </div>
+
+        <div class="trend-card">
+          <h4>🎯 The $40 Billion Projection</h4>
+          <p>Industry analysts project that GenAI could fuel up to <span class="stat-highlight rose">$40 billion</span> in US fraud losses by 2027 — more than triple 2023 figures — if defensive adoption fails to keep pace with offensive use. The primary vectors: authorized push payment fraud enabled by voice deepfakes and AI-crafted social engineering that bypasses all technical controls.</p>
+        </div>
+      </section>
+
+      <section class="content-section" id="ai-techniques">
+        <div class="section-header">
+          <div class="section-icon">🧠</div>
+          <div>
+            <h2>Advanced AI Techniques in Payments</h2>
+            <p class="section-lead">Beyond standard ML models, three techniques are rapidly gaining adoption for payment fraud and financial crime detection.</p>
+          </div>
+        </div>
+
+        <div class="trend-card">
+          <h4>Graph Neural Networks (GNNs)</h4>
+          <p>Traditional fraud models treat each transaction in isolation. GNNs map relationships between accounts, devices, merchants, and transactions as a network graph. A "money mule" chain — where fraud proceeds move through multiple accounts before cash-out — becomes visible as a suspicious graph pattern even if each individual transaction looks benign. Mastercard's Decision Intelligence Pro operates on a graph of over 1 trillion data points.</p>
+        </div>
+
+        <div class="trend-card">
+          <h4>Behavioral Biometrics</h4>
+          <p>Rather than "who you are" (passwords, PINs) or "what you have" (device, token), behavioral biometrics captures "how you behave" — typing rhythm, swipe velocity, screen pressure, device hold angle, navigation patterns within an app. This continuous authentication layer operates invisibly and is extremely difficult to replicate, even with stolen credentials. Used to detect account takeover the moment behavior deviates from the established baseline.</p>
+        </div>
+
+        <div class="trend-card">
+          <h4>Agentic AI: From Detection to Remediation</h4>
+          <p>The 2025–2026 shift is from AI that <em>flags</em> fraud to AI that <em>acts on</em> fraud autonomously. Agentic AI systems can: (1) detect a suspicious transaction, (2) pull context from multiple data sources, (3) initiate a step-up authentication challenge, (4) if that fails, freeze the account, (5) draft a customer notification, and (6) file an internal fraud case — all without human intervention. <span class="stat-highlight">76%</span> of financial organizations planned to implement agentic AI within 12 months as of early 2026.</p>
+        </div>
+      </section>
+
+      <section class="content-section" id="ai-agentic">
+        <div class="section-header">
+          <div class="section-icon">🚀</div>
+          <div>
+            <h2>Agentic Commerce: When AI Makes the Payment</h2>
+            <p class="section-lead">The logical endpoint of AI in payments isn't just detecting fraud — it's AI agents that autonomously initiate, route, and complete payments on behalf of consumers and businesses.</p>
+          </div>
+        </div>
+
+        <p>Agentic commerce refers to AI agents — operating within apps, voice assistants, or autonomous systems — that transact on a user's behalf. The payments infrastructure must evolve to support machine-to-machine transactions at scale:</p>
+
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-step-num">1</div>
+            <div class="process-step-body">
+              <strong>Credential Delegation</strong>
+              <p>A user grants an AI agent scoped permission to make payments: e.g., "pay utility bills up to $500 automatically." The agent holds a delegated credential, not the full account credentials, limiting blast radius if compromised.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">2</div>
+            <div class="process-step-body">
+              <strong>Optimal Funding Source Selection</strong>
+              <p>The agent evaluates available payment methods — debit (low cost), credit (rewards), installment (cash flow management), loyalty points — and selects the optimal one per transaction. Visa's Flexible Credential enables this at the network token level.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">3</div>
+            <div class="process-step-body">
+              <strong>Real-Time Routing</strong>
+              <p>The agent routes payments across available rails: card network for merchant payments, FedNow/RTP for instant B2B disbursements, stablecoin rails for cross-border. Each route is selected based on cost, speed, and merchant acceptance.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">4</div>
+            <div class="process-step-body">
+              <strong>Reconciliation & Reporting</strong>
+              <p>The agent auto-reconciles transactions to expense categories, submits receipts to accounting systems, and generates reports — without the human ever logging into a banking app.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p>💡 <strong>Visa Flexible Credential + Agentic Commerce:</strong> Visa is explicitly positioning the Flexible Credential (a single card that toggles between debit, credit, installment, and rewards) as the credential layer for agentic commerce — allowing AI agents to select the optimal funding source without requiring the consumer to manage multiple cards.</p>
+        </div>
+      </section>
+
+    </div><!-- end tab ai -->
+
+    <!-- ================================================
+         TAB 2: DIGITAL MONEY
+         ================================================ -->
+    <div class="chapter-content" data-chapter="digital">
+
+      <section class="content-section" id="stablecoins">
+        <div class="section-header">
+          <div class="section-icon">💵</div>
+          <div>
+            <h2>Stablecoins & the GENIUS Act</h2>
+            <p class="section-lead">After years of regulatory uncertainty, stablecoins achieved a landmark legal framework in 2025 — shifting from a crypto-native instrument to a regulated component of mainstream payment infrastructure.</p>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">Jul 18, 2025</div>
+            <div class="key-fact-label">GENIUS Act signed into law — first comprehensive US stablecoin regulatory framework</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">1:1</div>
+            <div class="key-fact-label">Mandatory reserve backing — USD or equivalent low-risk assets, no algorithmic stablecoins</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">PPSI</div>
+            <div class="key-fact-label">Permitted Payment Stablecoin Issuers — treated as financial institutions under the Bank Secrecy Act</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">70 markets</div>
+            <div class="key-fact-label">PayPal PYUSD expanded to 70 countries by early 2026</div>
+          </div>
+        </div>
+
+        <h3>The GENIUS Act — Key Provisions</h3>
+        <p>The <strong>Guiding and Establishing National Innovation for U.S. Stablecoins (GENIUS) Act</strong>, signed July 18, 2025, established the first comprehensive federal framework for payment stablecoins in the United States:</p>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Requirement</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Reserve Backing</strong></td><td>1:1 by USD or short-term US Treasuries / equivalent low-risk assets. Algorithmic stablecoins (backed by crypto) are excluded from PPSI status.</td></tr>
+              <tr><td><strong>BSA Treatment</strong></td><td>PPSIs are treated as financial institutions under the Bank Secrecy Act — requiring full AML, CFT, and OFAC sanctions programs.</td></tr>
+              <tr><td><strong>Customer Identification</strong></td><td>Mandatory Customer Identification Programs (CIP) — same as traditional banks.</td></tr>
+              <tr><td><strong>Consumer Priority</strong></td><td>Stablecoin holders receive priority over other creditors in an issuer insolvency — direct consumer protection.</td></tr>
+              <tr><td><strong>Implementation Timeline</strong></td><td>OCC, FDIC, FinCEN, and OFAC issuing Notice of Proposed Rulemakings (NPRs) to operationalize requirements, with NPRs issued June 2026.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Stablecoins in the Payment Stack</h3>
+        <div class="trend-card">
+          <h4>Stripe + Bridge: The Stablecoin Infrastructure Play</h4>
+          <p>Following Stripe's acquisition of stablecoin infrastructure firm <strong>Bridge</strong> in 2024, Stripe integrated stablecoin acceptance into its global payment platform. Merchants can now accept USDC and other stablecoins with settlement completing in seconds — with payouts available in fiat or stablecoins. Stripe processed nearly <span class="stat-highlight">$2 trillion</span> in total volume in 2025.</p>
+        </div>
+
+        <div class="trend-card">
+          <h4>Visa & Mastercard: Stablecoin Settlement</h4>
+          <p>Both networks are using stablecoins (primarily USDC) to modernize the interbank settlement leg of card transactions — enabling near-instant, 24/7 settlement between acquiring and issuing banks, bypassing batch ACH settlement windows. <strong>Mastercard</strong> acquired stablecoin infrastructure firm <strong>BVNK in 2026</strong> to own the underlying rails. <strong>Visa</strong> focused on network capability-building and issuer/acquirer partnerships.</p>
+        </div>
+
+        <div class="trend-card">
+          <h4>PayPal PYUSD & Circle USDC</h4>
+          <p><strong>PYUSD</strong> (issued by Paxos) expanded to 70 markets by early 2026, targeting faster, lower-cost cross-border settlement compared to SWIFT. <strong>USDC</strong> remains dominant in US institutional and B2B use — widely used by Stripe, Visa, and Mastercard for treasury management and settlement. The 2025 use case shift: from crypto trading to cross-border B2B payment settlement.</p>
+        </div>
+      </section>
+
+      <section class="content-section" id="bnpl">
+        <div class="section-header">
+          <div class="section-icon">🛍️</div>
+          <div>
+            <h2>Buy Now Pay Later in 2026</h2>
+            <p class="section-lead">BNPL survived its regulatory scare and emerged in 2026 as a mature, profitable segment — with Klarna's NYSE IPO marking its mainstream arrival and the CFPB's rule withdrawal reducing near-term compliance risk.</p>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">$560B</div>
+            <div class="key-fact-label">Global BNPL GMV in 2025 → projected $680B in 2026</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">380M+</div>
+            <div class="key-fact-label">Global BNPL users (2025); projected ~670M by 2028</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">5–6%</div>
+            <div class="key-fact-label">BNPL's share of all US eCommerce transactions</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">Sep 10, 2025</div>
+            <div class="key-fact-label">Klarna IPO (NYSE: KLAR) at $40/share (~$15.1B valuation)</div>
+          </div>
+        </div>
+
+        <h3>CFPB BNPL Rule: Issued and Withdrawn</h3>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Event</th><th>Date</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td>CFPB Interpretive Rule issued</td><td>May 2024</td><td>Declared BNPL lenders (Affirm, Afterpay, Klarna, PayPal, Sezzle, Zip) to be "card issuers" and "creditors" under Reg Z/TILA — would have required dispute investigation, billing statements, refund obligations</td></tr>
+              <tr><td>Legal challenge filed</td><td>2024</td><td>Financial Technology Association and others challenged the rule; CFPB also faced internal pressure under new administration</td></tr>
+              <tr><td>CFPB announces revocation</td><td>Early 2025</td><td>Rule characterized as "procedurally defective" — applying open-end credit rules to closed-end BNPL products created burden with minimal consumer benefit</td></tr>
+              <tr><td>No enforcement priority</td><td>May 2025</td><td>CFPB confirmed it would not prioritize enforcement based on the 2024 rule. No binding federal BNPL-specific regulation currently in force.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Key Player Snapshot (2025–2026)</h3>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Company</th><th>Status</th><th>Key Stats</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Klarna</strong></td>
+                <td>NYSE: KLAR (IPO Sep 10, 2025)</td>
+                <td>119M active users; 3.4M daily transactions; GMV $136B; 85M app downloads</td>
+              </tr>
+              <tr>
+                <td><strong>Affirm</strong></td>
+                <td>Nasdaq: AFRM</td>
+                <td>GMV $46B+ (LTM Mar 2026); ~27M active consumers; achieved first GAAP profitability in 2026</td>
+              </tr>
+              <tr>
+                <td><strong>Afterpay</strong></td>
+                <td>Block Inc. subsidiary</td>
+                <td>Credit losses &lt;1% of GMV; &gt;95% GMV from returning customers; integrated with Cash App ecosystem</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box">
+          <p>💡 <strong>Profitability Pivot:</strong> The defining theme of BNPL in 2025–2026 is the industry's shift from "growth at all costs" to sustainable underwriting. Credit losses stabilized at 0.4–1.0% of GMV. BNPL is increasingly integrating into digital banking ecosystems — debit card overlays, long-term installment financing, and AI-driven financial health tools.</p>
+        </div>
+      </section>
+
+      <section class="content-section" id="cbdc">
+        <div class="section-header">
+          <div class="section-icon">🏛️</div>
+          <div>
+            <h2>Central Bank Digital Currencies: Global Landscape</h2>
+            <p class="section-lead">As of 2026, the global CBDC picture shows a clear geopolitical divide: China at the frontier, Europe in deliberation, and the United States legally prohibited from retail CBDC issuance until at least 2030.</p>
+          </div>
+        </div>
+
+        <div class="cbdc-map">
+          <div class="cbdc-card">
+            <div class="cbdc-flag">🇺🇸</div>
+            <div class="cbdc-name">United States — No Retail CBDC</div>
+            <div class="cbdc-status status-none">Legally Prohibited</div>
+            <div class="cbdc-desc">Congress embedded a four-year prohibition on the Federal Reserve issuing a retail CBDC — legally banned until at least <strong>December 31, 2030</strong>. The US approach: support private-sector stablecoins (GENIUS Act) instead. <strong>FedNow is NOT a CBDC</strong> — it is an instant payment rail, not a central bank liability to the public.</div>
+          </div>
+          <div class="cbdc-card">
+            <div class="cbdc-flag">🇨🇳</div>
+            <div class="cbdc-name">China — e-CNY (Digital Yuan)</div>
+            <div class="cbdc-status status-live">Live & Scaling</div>
+            <div class="cbdc-desc">World leader in CBDC implementation. As of <strong>January 1, 2026</strong>, e-CNY shifted from a cash-like instrument to "digital deposit money" — now officially <strong>interest-bearing</strong> when held in commercial bank wallets. Cumulative transactions: <strong>16.7 trillion yuan (~$2.3T USD)</strong> by late 2025.</div>
+          </div>
+          <div class="cbdc-card">
+            <div class="cbdc-flag">🇪🇺</div>
+            <div class="cbdc-name">European Union — Digital Euro</div>
+            <div class="cbdc-status status-planned">In Legislation</div>
+            <div class="cbdc-desc">As of <strong>June 2026</strong>, the European Parliament's ECON committee approved the digital euro, advancing toward legislation. Pilot testing targeted for <strong>2027</strong>; potential first issuance <strong>2029</strong>. Two-tier model via commercial banks; privacy-focused; designed to complement (not replace) cash.</div>
+          </div>
+          <div class="cbdc-card">
+            <div class="cbdc-flag">🌐</div>
+            <div class="cbdc-name">Project mBridge — Wholesale</div>
+            <div class="cbdc-status status-pilot">Commercializing</div>
+            <div class="cbdc-desc">Multilateral wholesale CBDC for central bank cross-border settlement. Participants: <strong>China, Hong Kong, Thailand, UAE, Saudi Arabia</strong>. BIS exited in late 2024; now independently led by participating central banks. Processing billions in settlements; moving toward full commercialization in 2026. Widely seen as a tool to reduce USD-correspondent banking dependence.</div>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          <p>⚠️ <strong>Geopolitical Context:</strong> Project mBridge and the e-CNY are widely analyzed as China's effort to build an alternative to SWIFT and USD-denominated correspondent banking for participating countries. The US CBDC prohibition and GENIUS Act stablecoin framework represent an explicit policy choice to maintain dollar dominance through private-sector dollar-pegged instruments rather than a government-issued digital dollar.</p>
+        </div>
+      </section>
+
+    </div><!-- end tab digital -->
+
+    <!-- ================================================
+         TAB 3: OPEN BANKING & A2A
+         ================================================ -->
+    <div class="chapter-content" data-chapter="openbanking">
+
+      <section class="content-section" id="ob-1033">
+        <div class="section-header">
+          <div class="section-icon">🔓</div>
+          <div>
+            <h2>US Open Banking: Section 1033</h2>
+            <p class="section-lead">The CFPB's landmark Personal Financial Data Rights rule — the cornerstone of US open banking — remains in regulatory limbo as of mid-2026, caught between legal injunctions and an administration-driven reconsideration process.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">Oct 2024</div>
+          <div class="timeline-text"><strong>Final Rule Published</strong> — CFPB finalizes the Section 1033 "Personal Financial Data Rights" rule. First compliance date for largest banks: April 1, 2026.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Late 2024</div>
+          <div class="timeline-text"><strong>Legal Challenge</strong> — Bank Policy Institute + Kentucky Bankers Association file suit. Eastern District of Kentucky issues an <strong>injunction blocking enforcement</strong>.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Jul 2025</div>
+          <div class="timeline-text"><strong>CFPB Reconsideration</strong> — CFPB moves to stay legal proceedings and initiate a new rulemaking process to revise the rule.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Aug 2025</div>
+          <div class="timeline-text"><strong>ANPRM Issued</strong> — Advance Notice of Proposed Rulemaking on key topics: data privacy, security standards, fee structures, definition of "authorized representatives."</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Apr 1, 2026</div>
+          <div class="timeline-text"><strong>Deadline Passes Unenforced</strong> — Original compliance date for the largest banks passes with no enforcement due to the injunction and ongoing reconsideration.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Mid-2026</div>
+          <div class="timeline-text"><strong>Current Status</strong> — Rule under active revision. Voluntary industry infrastructure development continues. No binding US open banking mandate currently in force.</div>
+        </div>
+
+        <h3>What the 2024 Rule Would Have Required</h3>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Party</th><th>Obligation</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Banks (Data Providers)</strong></td><td>Provide consumers and authorized third parties electronic access to account balances, transaction history, and payment initiation data — <em>at no cost</em></td></tr>
+              <tr><td><strong>Banks (Data Providers)</strong></td><td>Maintain secure developer APIs; no screen-scraping as primary access method</td></tr>
+              <tr><td><strong>Third Parties (Fintechs)</strong></td><td>Qualify as "authorized third party" with strict data use and retention rules; cannot sell or use data beyond the stated consumer purpose</td></tr>
+              <tr><td><strong>Exemption</strong></td><td>Depository institutions with ≤$850M in assets are exempt from data provider obligations</td></tr>
+              <tr><td><strong>Scope</strong></td><td>Credit cards and Reg E accounts (checking/savings) as starting scope; future expansion planned</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="content-section" id="ob-uk">
+        <div class="section-header">
+          <div class="section-icon">🇬🇧</div>
+          <div>
+            <h2>UK Open Banking & Variable Recurring Payments</h2>
+            <p class="section-lead">The UK leads the world in operational open banking adoption, having moved well beyond data sharing into a live payment initiation ecosystem. The next frontier is commercial VRP — turning open banking into a true card alternative.</p>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">16.5M</div>
+            <div class="key-fact-label">Monthly active user connections on UK Open Banking APIs</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">33M+</div>
+            <div class="key-fact-label">Open banking payments in a single month (early 2026)</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">~50%</div>
+            <div class="key-fact-label">Year-over-year growth in open banking payment volumes</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">Jun 2026</div>
+            <div class="key-fact-label">UK Payments Initiative launches commercial VRP scheme</div>
+          </div>
+        </div>
+
+        <h3>Variable Recurring Payments (VRP)</h3>
+        <p>VRP is the UK's most significant open banking evolution. Unlike a one-off payment, a VRP is a consent-based arrangement that allows a third party to initiate payments on the customer's behalf — within pre-agreed limits — without requiring re-authentication each time. This enables programmable, automated payments that are more flexible than direct debits.</p>
+
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-step-num">1</div>
+            <div class="process-step-body">
+              <strong>Sweeping VRP (Live since 2022)</strong>
+              <p>The CMA9 banks are mandated to support sweeping VRP — moving money between a customer's own accounts (e.g., auto-sweeping excess current account balance into savings). Live and operational.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">2</div>
+            <div class="process-step-body">
+              <strong>Commercial VRP (cVRP) — Launched June 2026</strong>
+              <p>The UK Payments Initiative (UKPI) launched a commercial VRP scheme in June 2026 — enabling recurring A2A payments to merchants. Use cases: subscriptions, utility bills, government payments. A lower-cost, programmable alternative to card-on-file transactions.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p>💡 <strong>Why VRP matters for cards:</strong> Every VRP transaction that replaces a card-on-file recurring payment represents lost interchange revenue for card networks and issuers. In markets where VRP scales (UK and eventually EU), card economics for subscription-type merchants are under structural pressure.</p>
+        </div>
+      </section>
+
+      <section class="content-section" id="ob-europe">
+        <div class="section-header">
+          <div class="section-icon">🇪🇺</div>
+          <div>
+            <h2>PSD3, Wero & European A2A Payments</h2>
+            <p class="section-lead">Europe is pursuing payments sovereignty — a concerted effort to build indigenous payment infrastructure that reduces dependence on US-controlled card networks, driven by both economic and geopolitical imperatives.</p>
+          </div>
+        </div>
+
+        <h3>PSD3 / Payment Services Regulation (PSR)</h3>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Final Texts Published</strong></td><td>April 23, 2026</td></tr>
+              <tr><td><strong>Formal Adoption</strong></td><td>Expected mid-to-late 2026</td></tr>
+              <tr><td><strong>Full Implementation</strong></td><td>~21 months after publication → approximately <strong>late 2028</strong></td></tr>
+              <tr><td><strong>Key Structural Change</strong></td><td>PSD2 was a <em>Directive</em> (transposed country-by-country, leading to inconsistency). PSR is a <em>Regulation</em> — directly applicable across all EU member states as a single rulebook, eliminating fragmentation</td></tr>
+              <tr><td><strong>API Improvements</strong></td><td>Stricter API performance standards; mandatory fallback/contingency mechanisms when primary API is unavailable</td></tr>
+              <tr><td><strong>AISP/PISP Clarity</strong></td><td>Clearer regulatory treatment of Account Information Service Providers (AISPs) and Payment Initiation Service Providers (PISPs)</td></tr>
+              <tr><td><strong>Verification of Payee</strong></td><td>Mandatory "Confirmation of Payee" (VoP) requirement at ~27 months post-adoption</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Wero — Europe's Answer to Venmo and Visa</h3>
+        <p>The <strong>European Payments Initiative (EPI)</strong> launched <strong>Wero</strong> — a pan-European A2A digital wallet designed to unify Europe's fragmented payments landscape and reduce dependence on US card networks.</p>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">48M+</div>
+            <div class="key-fact-label">Wero users by mid-2026 (Germany, France, Belgium, Netherlands)</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">2025</div>
+            <div class="key-fact-label">Wero expanded from P2P to e-commerce and m-commerce payments</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">2026</div>
+            <div class="key-fact-label">iDEAL (Netherlands) began phased migration to the Wero platform</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">2026–27</div>
+            <div class="key-fact-label">POS/NFC integration planned — tap-to-pay bypassing card networks entirely</div>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          <p>⚠️ <strong>Geopolitical Driver:</strong> European policymakers explicitly describe Visa and Mastercard's dominance as a strategic vulnerability — both because transaction data flows to US-controlled entities and because US sanctions or regulatory action could theoretically restrict European payment processing. Wero and the digital euro project are explicitly framed as "payments sovereignty" initiatives.</p>
+        </div>
+      </section>
+
+    </div><!-- end tab openbanking -->
+
+    <!-- ================================================
+         TAB 4: CROSS-BORDER MODERNIZATION
+         ================================================ -->
+    <div class="chapter-content" data-chapter="crossborder">
+
+      <section class="content-section" id="iso20022">
+        <div class="section-header">
+          <div class="section-icon">📋</div>
+          <div>
+            <h2>ISO 20022: The Migration Is Complete</h2>
+            <p class="section-lead">November 22, 2025 marked the end of SWIFT's coexistence period — the legacy MT message format is no longer supported for cross-border payment instructions. The entire industry has now committed to ISO 20022 MX.</p>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">Nov 22, 2025</div>
+            <div class="key-fact-label">SWIFT MT → ISO 20022 MX coexistence period officially ended. Legacy MT 103, MT 202 messages no longer supported.</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">Nov 2026</div>
+            <div class="key-fact-label">Next SWIFT mandate: hybrid or fully structured addresses required for all cross-border payments</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">ISO 20022</div>
+            <div class="key-fact-label">XML-based messaging standard carrying rich, structured data vs. legacy fixed-field MT formats</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">FedNow + RTP</div>
+            <div class="key-fact-label">Both US instant payment networks use ISO 20022 natively — positioning the US for faster cross-border interoperability</div>
+          </div>
+        </div>
+
+        <h3>MT vs. MX: Why the Data Richness Matters</h3>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Dimension</th><th>Legacy MT Messages</th><th>ISO 20022 MX Messages</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Format</strong></td><td>Fixed-field, character-limited text</td><td>XML-based, richly structured</td></tr>
+              <tr><td><strong>Remittance Data</strong></td><td>Limited free-text fields; often truncated</td><td>Full structured remittance information — invoice references, purpose codes, line items</td></tr>
+              <tr><td><strong>Party Data</strong></td><td>Name only; address often truncated or omitted</td><td>Structured addresses (street, city, country, postal code) + Legal Entity Identifiers (LEIs)</td></tr>
+              <tr><td><strong>Sanctions Screening</strong></td><td>High false-positive rate from incomplete/truncated names</td><td>Richer structured data → more accurate screening, fewer false positives, faster processing</td></tr>
+              <tr><td><strong>Reconciliation</strong></td><td>Manual matching at many banks</td><td>Machine-readable remittance data enables automated, straight-through reconciliation</td></tr>
+              <tr><td><strong>Analytics</strong></td><td>Limited; unstructured data hard to analyze</td><td>Structured data enables rich payment analytics, trend monitoring, fraud pattern detection</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="content-section" id="nexus">
+        <div class="section-header">
+          <div class="section-icon">🔗</div>
+          <div>
+            <h2>Project Nexus & the G20 Roadmap</h2>
+            <p class="section-lead">Project Nexus represents the most ambitious technical solution to the cross-border payments problem: a single hub that interlinks domestic instant payment systems globally, eliminating the need for bespoke bilateral connections.</p>
+          </div>
+        </div>
+
+        <h3>Project Nexus — How It Works</h3>
+        <p>Led by the BIS Innovation Hub, Project Nexus proposes a central infrastructure "nexus scheme" that sits between domestic instant payment systems (IPS). Rather than each country's IPS needing a direct bilateral connection to every other country's IPS, each connects once to Nexus — and immediately gains interoperability with all others.</p>
+
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-step-num">1</div>
+            <div class="process-step-body">
+              <strong>Sender initiates in domestic IPS</strong>
+              <p>A Thai consumer initiates a cross-border transfer through their local PromptPay instant payment system. PromptPay connects to the Nexus hub.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">2</div>
+            <div class="process-step-body">
+              <strong>Nexus routes and converts</strong>
+              <p>Nexus handles foreign exchange, compliance checks, and message translation between the sending and receiving instant payment systems. FX conversion is embedded in the flow — not a manual step.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">3</div>
+            <div class="process-step-body">
+              <strong>Receiving IPS delivers funds</strong>
+              <p>Singapore's PayNow receives the converted payment message from Nexus and credits the Singapore recipient's account — in seconds, not days.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">5 countries</div>
+            <div class="key-fact-label">Initial Nexus participants: India, Malaysia, Philippines, Singapore, Thailand</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">End of 2027</div>
+            <div class="key-fact-label">G20 cross-border payments roadmap comprehensive target deadline — 3% average remittance cost, 25% of payments in under 1 hour</div>
+          </div>
+        </div>
+
+        <h3>G20 Cross-Border Payments Roadmap</h3>
+        <p>The G20's multi-year initiative aims to make cross-border payments: <strong>cheaper</strong> (average remittance cost below 3%), <strong>faster</strong> (25% of payments settled within 1 hour), <strong>more transparent</strong> (real-time tracking of status and fees), and <strong>more inclusive</strong> (access for individuals without bank accounts).</p>
+        <p>International bodies note that while significant technical progress has been made — particularly through ISO 20022 adoption and Project Nexus — meeting all comprehensive targets by end of 2027 remains <strong>challenging</strong>. The largest barriers are governance fragmentation, FX settlement risk management across jurisdictions, and AML/compliance harmonization.</p>
+      </section>
+
+      <section class="content-section" id="mbridge">
+        <div class="section-header">
+          <div class="section-icon">🌉</div>
+          <div>
+            <h2>Project mBridge: Wholesale CBDC Cross-Border Settlement</h2>
+            <p class="section-lead">Project mBridge is the most consequential geopolitical development in global payment infrastructure — a wholesale CBDC platform that enables central banks to settle directly with each other, bypassing SWIFT and USD correspondent banking.</p>
+          </div>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Dimension</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td><strong>What it is</strong></td><td>Multilateral wholesale CBDC platform for cross-border settlement between central banks and financial institutions — NOT a retail payment product</td></tr>
+              <tr><td><strong>Participants</strong></td><td>China (PBoC), Hong Kong (HKMA), Thailand (BOT), UAE (CBUAE), Saudi Arabia (SAMA) — with observer participation from others</td></tr>
+              <tr><td><strong>BIS exit</strong></td><td>Bank for International Settlements departed the project in late 2024, citing concerns about the geopolitical direction; project now independently led by participating central banks</td></tr>
+              <tr><td><strong>Status (2026)</strong></td><td>Processing billions in cross-border settlements; moving from pilot to commercialization phase in 2026</td></tr>
+              <tr><td><strong>Technology</strong></td><td>Purpose-built distributed ledger (not public blockchain); each participating central bank operates a node</td></tr>
+              <tr><td><strong>Geopolitical significance</strong></td><td>Creates a settlement rail for trade between participating countries that does not require USD clearing or SWIFT messaging — a structural alternative to the dollar-based correspondent banking system</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Correspondent Banking Decline</h3>
+        <p>The number of active correspondent banking relationships globally has declined approximately <span class="stat-highlight rose">20%</span> over the past decade. Large banks have de-risked by dropping relationships with smaller, higher-risk counterparties — driven by rising AML compliance costs and regulatory pressure. This "de-risking" has cut off banking access for entire regions and financial institutions, fueling demand for alternatives including mBridge, stablecoins, and Project Nexus.</p>
+      </section>
+
+    </div><!-- end tab crossborder -->
+
+    <!-- ================================================
+         TAB 5: FUTURE INFRASTRUCTURE STACK
+         ================================================ -->
+    <div class="chapter-content" data-chapter="futurestack">
+
+      <section class="content-section" id="embedded">
+        <div class="section-header">
+          <div class="section-icon">🏗️</div>
+          <div>
+            <h2>Embedded Finance & Banking as a Service</h2>
+            <p class="section-lead">Embedded finance — integrating financial products directly into non-financial platforms — has moved from a startup novelty to a primary growth driver for SaaS platforms, marketplaces, and enterprise software vendors.</p>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">$74–150B</div>
+            <div class="key-fact-label">Global embedded finance market size in 2025 (range by scope definition)</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">$1.7T</div>
+            <div class="key-fact-label">Long-term market projection by 2034</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">3–4×</div>
+            <div class="key-fact-label">Revenue per user uplift for SaaS platforms that embed financial products</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">Apr 2026</div>
+            <div class="key-fact-label">OCC + FDIC finalized rule eliminating "reputation risk" as standalone supervisory category — easing BaaS pressure</div>
+          </div>
+        </div>
+
+        <h3>How Embedded Finance Works</h3>
+        <p>A vertical SaaS platform (e.g., restaurant management software, contractor tools, agricultural software) integrates financial services — payments acceptance, business lending, insurance, treasury — directly into its core workflow. The customer never leaves the platform to access these services. Revenue sharing between the SaaS platform and the underlying bank/fintech creates a new income stream that dwarfs subscription fees.</p>
+
+        <div class="trend-card">
+          <h4>Shopify Capital — The Flagship Embedded Lending Example</h4>
+          <p>Shopify offers merchant cash advances and business loans directly within the Shopify dashboard, using the merchant's transaction history (already on Shopify's platform) as underwriting data. Merchants apply with one click; decisions arrive in hours. Shopify Capital has originated <strong>billions in merchant loans</strong> — without Shopify being a bank. The model is powered by BaaS partnerships with licensed lenders.</p>
+        </div>
+
+        <h3>BaaS Regulatory Trajectory</h3>
+        <p>The 2023–2024 period saw heavy regulatory action against BaaS partner banks — consent orders and Matters Requiring Attention (MRAs) against Blue Ridge Bank, Sutton Bank, Piermont Bank, and others, citing inadequate oversight of fintech partner activities. The pendulum shifted in 2026:</p>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Development</th><th>Date</th><th>Impact</th></tr></thead>
+            <tbody>
+              <tr><td>OCC/FDIC eliminate "reputation risk" supervisory category</td><td>April 2026</td><td>Reduces subjective examination criteria; banks less likely to exit fintech relationships based on reputational concerns alone</td></tr>
+              <tr><td>Executive Order on fintech/digital asset regulatory integration</td><td>May 2026</td><td>Directs regulators to remove barriers for fintech and digital asset companies; signals pro-innovation stance</td></tr>
+              <tr><td>GENIUS Act NPRs issued</td><td>June 2026</td><td>OCC and FDIC issue NPRs for BSA/AML standards for stablecoin issuers — creating a new compliance framework for crypto-native BaaS</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="content-section" id="rfp">
+        <div class="section-header">
+          <div class="section-icon">📨</div>
+          <div>
+            <h2>Request for Payment (RfP) — Bill Pay Reimagined</h2>
+            <p class="section-lead">Request for Payment transforms the bill payment experience: instead of customers navigating biller portals and entering account details, a payment request arrives directly in their banking app — pre-filled, requiring one tap to approve.</p>
+          </div>
+        </div>
+
+        <h3>How RfP Works</h3>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="process-step-num">1</div>
+            <div class="process-step-body">
+              <strong>Biller Sends the Request</strong>
+              <p>A utility company generates a Request for Payment message via FedNow or RTP. The ISO 20022 message contains: amount due, due date, account reference, biller name, and rich remittance data.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">2</div>
+            <div class="process-step-body">
+              <strong>Customer Receives In-App Notification</strong>
+              <p>The customer's bank receives the RfP and presents it as a push notification in the mobile banking app. The pre-filled payment shows all details — no manual data entry required.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">3</div>
+            <div class="process-step-body">
+              <strong>One-Tap Approval</strong>
+              <p>The customer reviews and taps "Pay." The payment executes immediately on the instant payment rail (FedNow or RTP) — funds are irrevocably settled in seconds, not days.</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="process-step-num">4</div>
+            <div class="process-step-body">
+              <strong>Automated Reconciliation</strong>
+              <p>ISO 20022 remittance data flows with the payment, allowing the biller to auto-match the payment to the invoice without manual intervention.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">1,776</div>
+            <div class="key-fact-label">Financial institutions live on FedNow as of late June 2026</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">1,260+</div>
+            <div class="key-fact-label">Participating institutions on TCH RTP network</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">2.27M</div>
+            <div class="key-fact-label">RTP record transactions in a single day — May 1, 2026</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">$853B</div>
+            <div class="key-fact-label">FedNow 2025 annual volume (vs. $38.2B in 2024 — massive growth)</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <p>💡 <strong>Average FedNow payment size ~$99,000:</strong> This is driven by B2B and treasury use cases, not consumer P2P. FedNow's growth story is primarily corporate treasury and business-to-business, not consumer bill payment — yet. Consumer RfP for utility and telecom bills is the next major growth vector.</p>
+        </div>
+      </section>
+
+      <section class="content-section" id="tokenization">
+        <div class="section-header">
+          <div class="section-icon">🔐</div>
+          <div>
+            <h2>Network Tokenization & Digital Wallets</h2>
+            <p class="section-lead">Tokenization has evolved from a fraud-reduction tool into the foundational credential layer of modern digital commerce — and by 2030, Mastercard aims to eliminate manual card number entry entirely.</p>
+          </div>
+        </div>
+
+        <div class="key-facts-grid">
+          <div class="key-fact">
+            <div class="key-fact-value">12.6B</div>
+            <div class="key-fact-label">Visa tokens in circulation by early 2025 (reached 10B milestone in 2024)</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">2030</div>
+            <div class="key-fact-label">Mastercard's goal: eliminate manual card number entry for e-commerce globally — replaced entirely by tokenized "Click to Pay"</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">20M</div>
+            <div class="key-fact-label">Visa Flexible Credential credentials globally by early 2026; 20+ new issuers implementing in 2026</div>
+          </div>
+          <div class="key-fact">
+            <div class="key-fact-value">$2T+</div>
+            <div class="key-fact-label">Tokenized assets market projected by 2026 (including real-world asset tokenization)</div>
+          </div>
+        </div>
+
+        <h3>Visa Flexible Credential (VFC)</h3>
+        <p>The Visa Flexible Credential — formerly the Visa Multiple-Account Access Service (VMAAS) — is a single credential that can toggle between multiple underlying funding sources: debit, credit, installments, and rewards. The consumer or an AI agent selects the optimal funding source per transaction within the issuer's app. By early 2026, VFC had reached approximately <span class="stat-highlight">20 million credentials globally</span> and was introduced to Zilch cardholders in the UK in May 2026.</p>
+
+        <h3>Digital Wallet Market (2025)</h3>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Wallet</th><th>Global Users</th><th>2025 Transaction Volume</th><th>Strength</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Apple Pay</strong></td>
+                <td>~650M</td>
+                <td>~$8.7 trillion</td>
+                <td>US retail dominance; Gen Z preferred wallet; high-value transactions; Face ID biometric</td>
+              </tr>
+              <tr>
+                <td><strong>Google Pay / Wallet</strong></td>
+                <td>~500M</td>
+                <td>~$5.2 trillion</td>
+                <td>Global reach; emerging markets (India, SE Asia); Android-native; 2024 rebrand to Google Wallet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Both providers are evolving beyond tap-to-pay toward becoming "primary financial tools" — integrating loyalty programs, BNPL options, credit products, and alternative funding sources. "Click to Pay" (network-level tokenized one-click checkout) is expanding across Visa, Mastercard, Amex, and Discover for web payments, targeting the friction of manual card entry in e-commerce.</p>
+      </section>
+
+      <section class="content-section" id="biometric">
+        <div class="section-header">
+          <div class="section-icon">👁️</div>
+          <div>
+            <h2>Invisible & Biometric Payments</h2>
+            <p class="section-lead">The 2026 payments experience is increasingly invisible — authentication happens in the background through behavioral biometrics, Face ID, and palm recognition, while agentic AI handles the payment initiation entirely.</p>
+          </div>
+        </div>
+
+        <div class="trend-card">
+          <h4>Amazon One — Discontinued (June 3, 2026)</h4>
+          <p>Amazon officially discontinued its <strong>Amazon One</strong> palm biometric payment service for retail businesses on June 3, 2026 — also deleting all user palm data. Earlier discontinuation had occurred in healthcare settings. Limited consumer adoption at scale was the primary driver. However, the discontinuation of Amazon One does <em>not</em> signal the failure of palm biometrics as a technology — the modality continues to be explored in Japan, the Middle East, and enterprise access control.</p>
+        </div>
+
+        <div class="trend-card">
+          <h4>SoftPOS / Tap-to-Phone — Growing Merchant Adoption</h4>
+          <p>SoftPOS (Software Point of Sale) turns any standard Android smartphone or tablet into a contactless payment terminal — no dedicated hardware required. This dramatically lowers the cost barrier for payment acceptance, particularly for small merchants, gig workers, and emerging markets. Key providers: <strong>Visa VTAP, Mastercard Tap-on-Phone, Square, and Stripe Terminal on mobile</strong>. Growth is strongest in markets where dedicated POS hardware is prohibitively expensive.</p>
+        </div>
+
+        <div class="trend-card">
+          <h4>The De Facto Biometric: Device-Embedded Authentication</h4>
+          <p>While purpose-built biometric POS (Amazon One, facial recognition) struggled with adoption, <strong>Face ID and fingerprint authentication embedded in smartphones</strong> have become the de facto biometric payment experience — used hundreds of millions of times daily for Apple Pay and Google Pay. The consumer never perceives it as "biometric authentication" — it is simply how you pay.</p>
+        </div>
+
+        <h3>Wearable Payments</h3>
+        <p>Smartwatches, fitness bands, and NFC rings continue to grow as payment form factors — <strong>Apple Watch, Samsung Galaxy Watch, Garmin Pay, and McLear Ring</strong> all support contactless NFC payment. The "frictionless" experience (no phone, no wallet, just a tap of the wrist) aligns with the broader trend toward invisible payment experiences. Wearable payment devices are among the fastest-growing segments by device count, though transaction volume remains modest relative to smartphones.</p>
+      </section>
+
+      <section class="content-section" id="regulatory">
+        <div class="section-header">
+          <div class="section-icon">⚖️</div>
+          <div>
+            <h2>US Regulatory Landscape 2025–2026</h2>
+            <p class="section-lead">The Trump administration's second term has produced a dramatic shift in the US payments regulatory environment — significantly reducing consumer protection enforcement while simultaneously establishing clear frameworks for digital assets and fintech innovation.</p>
+          </div>
+        </div>
+
+        <h3>CFPB — Major Restructuring</h3>
+        <div class="timeline-item">
+          <div class="timeline-date">Feb 2025</div>
+          <div class="timeline-text"><strong>Russell Vought</strong> appointed Acting CFPB Director. Campaign to shrink the bureau began immediately — attempted 90% workforce reduction (courts blocked), later revised to ~50%.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Jul 2025</div>
+          <div class="timeline-text">P.L. 119-21 (reconciliation law) <strong>cuts CFPB's funding cap by nearly half</strong>. Agency continues to function under court injunctions protecting core operations.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Apr 2025</div>
+          <div class="timeline-text">Federal judge in Northern District of Texas <strong>vacates the credit card late fee rule</strong> (which would have capped late fees at $8 vs. the ~$32 average) via consent judgment after CFPB moved to abandon it.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Jun 2026</div>
+          <div class="timeline-text">Trump nominates <strong>Brian Johnson</strong> (former CFPB official, Capital One executive) to lead the CFPB as permanent director — pending Senate confirmation.</div>
+        </div>
+
+        <h3>OCC & FDIC — Deregulatory Agenda</h3>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Action</th><th>Date</th><th>Impact</th></tr></thead>
+            <tbody>
+              <tr><td>Eliminated "reputation risk" as standalone supervisory category</td><td>April 2026</td><td>Reduces subjective bank examinations; limits ability to de-risk based on non-financial reputational concerns; helps BaaS banks retain fintech partnerships</td></tr>
+              <tr><td>Executive Order on fintech/digital asset regulatory integration</td><td>May 2026</td><td>Directs all bank regulators to remove barriers for fintech and digital asset companies; signals administration's pro-innovation stance</td></tr>
+              <tr><td>GENIUS Act NPRs (BSA/AML for stablecoin issuers)</td><td>June 2026</td><td>OCC and FDIC issue proposed rules to operationalize GENIUS Act requirements — provides regulatory roadmap for stablecoin issuers seeking federal licensing</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="trend-card">
+          <h4>The Two-Track Regulatory Reality</h4>
+          <p>The 2025–2026 regulatory environment creates a distinctive two-track landscape: <strong>(1) Consumer protection is being significantly rolled back</strong> — the CFPB is smaller, less active, and less likely to bring enforcement actions against payment companies on consumer protection grounds. <strong>(2) Digital asset / stablecoin regulation is being actively built out</strong> — the GENIUS Act, OCC/FDIC NPRs, and FinCEN guidance represent the most comprehensive digital asset regulatory framework the US has ever produced. Companies operating across both tracks must navigate very different compliance priorities.</p>
+        </div>
+
+        <h3>Key Dates at a Glance</h3>
+        <div class="timeline-item">
+          <div class="timeline-date">May 2024</div>
+          <div class="timeline-text">CFPB issues BNPL interpretive rule (Reg Z card issuer treatment)</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Oct 2024</div>
+          <div class="timeline-text">CFPB Section 1033 Personal Financial Data Rights rule finalized</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Apr 2025</div>
+          <div class="timeline-text">CFPB credit card late fee rule vacated by federal court</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">May 2025</div>
+          <div class="timeline-text">CFPB: no enforcement priority on BNPL interpretive rule</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Jul 18, 2025</div>
+          <div class="timeline-text"><strong>GENIUS Act signed into law</strong></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Sep 10, 2025</div>
+          <div class="timeline-text"><strong>Klarna IPO</strong> (NYSE: KLAR, $40/share, ~$15.1B valuation)</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Nov 22, 2025</div>
+          <div class="timeline-text"><strong>SWIFT ISO 20022 coexistence period ends</strong> — legacy MT messages retired</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Jan 1, 2026</div>
+          <div class="timeline-text">e-CNY becomes interest-bearing "digital deposit money"</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Apr 23, 2026</div>
+          <div class="timeline-text">PSD3/PSR final compromise texts published by EU</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Jun 3, 2026</div>
+          <div class="timeline-text"><strong>Amazon One discontinued</strong></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Jun 2026</div>
+          <div class="timeline-text">UKPI launches commercial VRP scheme; EP ECON approves digital euro</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Nov 2026</div>
+          <div class="timeline-text">Next SWIFT mandate: structured addresses for cross-border payments</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">~2028</div>
+          <div class="timeline-text">PSD3/PSR full implementation in EU</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2029</div>
+          <div class="timeline-text">Digital euro potential first issuance</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Dec 31, 2030</div>
+          <div class="timeline-text">US retail CBDC prohibition expires (Congress may extend)</div>
+        </div>
+
+      </section>
+
+    </div><!-- end tab futurestack -->
+
+    <!-- MODULE FOOTER -->
+    <div class="module-footer">
+      <a href="module3.html" class="footer-nav-btn">← Module 3: Card Payments</a>
+      <a href="index.html" class="footer-nav-btn primary">🏠 Back to Home</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-logo">
+      <div class="site-footer-logo-icon">⚡</div>
+      Payments Academy
+    </div>
+
+    <div class="footer-facts">
+      <div class="footer-fact">
+        <div class="footer-fact-icon">📰</div>
+        <div>
+          <div class="footer-fact-title">Current as of June 2026</div>
+          <div class="footer-fact-body">This module reflects developments through June 2026. The payments landscape — particularly stablecoin regulation, open banking rules, and CBDC status — evolves rapidly. Verify current status with primary regulatory sources before making compliance or business decisions.</div>
+        </div>
+      </div>
+      <div class="footer-fact">
+        <div class="footer-fact-icon">🌐</div>
+        <div>
+          <div class="footer-fact-title">Global Scope</div>
+          <div class="footer-fact-body">This module covers both US and international payment developments. Regulatory frameworks outside the US (PSD3, UK open banking, e-CNY) are described for educational context. They do not constitute legal advice for any jurisdiction.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-disclaimer">
+      <div class="footer-disclaimer-icon">⚠️</div>
+      <div>
+        <strong>Regulatory Disclaimer:</strong> The regulatory and compliance content in this platform has been simplified for educational purposes. Payment regulations are complex, jurisdiction-specific, and subject to rapid change. <strong>Anyone making compliance, legal, or business decisions should consult the primary regulatory sources directly and seek qualified legal counsel.</strong>
+      </div>
+    </div>
+
+    <div class="footer-sources-title">Primary Sources &amp; References</div>
+    <div class="footer-sources-grid">
+      <a class="footer-source-tag" href="https://www.consumerfinance.gov/rules-policy/final-rules/personal-financial-data-rights/" target="_blank" rel="noopener">CFPB — Section 1033 Rule</a>
+      <a class="footer-source-tag" href="https://www.swift.com/standards/iso-20022" target="_blank" rel="noopener">SWIFT — ISO 20022</a>
+      <a class="footer-source-tag" href="https://www.bis.org/about/bisih/topics/fmis/nexus.htm" target="_blank" rel="noopener">BIS Innovation Hub — Project Nexus</a>
+      <a class="footer-source-tag" href="https://www.ecb.europa.eu/paym/digital_euro/html/index.en.html" target="_blank" rel="noopener">ECB — Digital Euro</a>
+      <a class="footer-source-tag" href="https://www.federalreserve.gov/paymentsystems/fednow_about.htm" target="_blank" rel="noopener">Federal Reserve — FedNow</a>
+      <a class="footer-source-tag" href="https://www.theclearinghouse.org/payment-systems/rtp" target="_blank" rel="noopener">TCH — RTP Network</a>
+      <a class="footer-source-tag" href="https://usa.visa.com/solutions/visa-flexible-credential.html" target="_blank" rel="noopener">Visa — Flexible Credential</a>
+      <a class="footer-source-tag" href="https://www.mastercard.com/global/en/business/articles/click-to-pay.html" target="_blank" rel="noopener">Mastercard — Click to Pay</a>
+      <a class="footer-source-tag" href="https://openbanking.org.uk" target="_blank" rel="noopener">Open Banking UK</a>
+      <a class="footer-source-tag" href="https://www.europeanpaymentsinitiative.eu" target="_blank" rel="noopener">EPI — Wero</a>
+      <a class="footer-source-tag" href="https://www.fsb.org/work-of-the-fsb/financial-innovation-and-structural-change/cross-border-payments/" target="_blank" rel="noopener">FSB — Cross-Border Payments</a>
+      <a class="footer-source-tag" href="https://www.mastercard.com/news/press/2024/decision-intelligence-pro/" target="_blank" rel="noopener">Mastercard — Decision Intelligence</a>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-copy">© 2026 Payments Academy · For educational use only</div>
+      <div class="footer-bottom-note">Module 4 content reflects developments through June 2026 · Verify current figures with primary sources</div>
+    </div>
+
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

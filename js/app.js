@@ -189,8 +189,35 @@
     });
   }
 
+  /* ---- ACTIVATE TAB FROM HASH ---- */
+  function handleInitialHash() {
+    var hash = window.location.hash;
+    if (!hash) return;
+    var id = hash.slice(1);
+    var target = document.getElementById(id);
+    if (!target) return;
+
+    var panel = target.closest('.chapter-panel');
+    if (panel && !panel.classList.contains('active')) {
+      var tabName = panel.dataset.tab;
+      var tabBtn = document.querySelector('.chapter-tab[data-tab="' + tabName + '"]');
+      if (tabBtn) {
+        tabBtn.click();
+        
+        requestAnimationFrame(function () {
+          var headerHeight = parseInt(
+            getComputedStyle(document.documentElement).getPropertyValue('--header-height') || '64',
+            10
+          );
+          var top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        });
+      }
+    }
+  }
+
   /* ---- INIT ALL ---- */
-  document.addEventListener('DOMContentLoaded', function () {
+  function initAll() {
     initTabs();
     initScrollSpy();
     initNavActive();
@@ -199,6 +226,7 @@
     initCollapsibles();
     initSidebarLinks();
     initCodeCopy();
+    handleInitialHash();
 
     // Activate first tab automatically
     document.querySelectorAll('.chapter-tabs').forEach(function (bar) {
@@ -207,5 +235,11 @@
         firstTab.click();
       }
     });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
 })();
